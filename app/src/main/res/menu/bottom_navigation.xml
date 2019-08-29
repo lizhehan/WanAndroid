@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottom_navigation_home"
+        android:icon="@drawable/ic_home_black"
+        android:title="@string/bottom_navigation_home" />
+
+    <item
+        android:id="@+id/bottom_navigation_tree"
+        android:icon="@drawable/ic_tree_black"
+        android:title="@string/bottom_navigation_tree" />
+
+    <item
+        android:id="@+id/bottom_navigation_wxarticle"
+        android:icon="@drawable/ic_wxarticle_black"
+        android:title="@string/bottom_navigation_wxarticle" />
+
+    <item
+        android:id="@+id/bottom_navigation_project"
+        android:icon="@drawable/ic_project_black"
+        android:title="@string/bottom_navigation_project" />
+
+    <!--<item-->
+        <!--android:id="@+id/bottom_navigation_user"-->
+        <!--android:icon="@drawable/ic_user"-->
+        <!--android:title="@string/bottom_navigation_user" />-->
+</menu>
