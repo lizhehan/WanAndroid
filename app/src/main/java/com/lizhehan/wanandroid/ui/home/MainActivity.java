@@ -3,6 +3,7 @@ package com.lizhehan.wanandroid.ui.home;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -45,6 +46,9 @@ import butterknife.BindView;
 
 public class MainActivity extends BaseActivity implements UserContract.View {
 
+    private static final String FRAGMENT_TAG = "fragment_tag";
+    private static final int FRAGMENT_SIZE = 4;
+    private static final String CURRENT_INDEX = "current_index";
     private static final int MESSAGE_SHOW_START_PAGE = 1;
     private static boolean isShowPageStart = true;
     @BindView(R.id.app_bar_layout_main)
@@ -57,7 +61,7 @@ public class MainActivity extends BaseActivity implements UserContract.View {
     RelativeLayout relative_main;
     @BindView(R.id.img_page_start)
     ImageView img_page_start;
-    UserContract.Presenter presenter;
+    private UserContract.Presenter presenter;
     private List<Fragment> fragmentList;
     private int lastIndex;
     private long mExitTime;
@@ -119,6 +123,57 @@ public class MainActivity extends BaseActivity implements UserContract.View {
     };
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fragmentList = new ArrayList<>();
+        if (savedInstanceState != null) {
+            //获取保存的fragment 没有的话返回null
+            for (int i = 0; i < FRAGMENT_SIZE; i++) {
+                Fragment fragment = getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_TAG + i);
+                if (fragment != null) {
+                    fragmentList.add(i, fragment);
+                } else {
+                    switch (i) {
+                        case 0:
+                            fragmentList.add(i, HomeFragment.getInstance());
+                            break;
+                        case 1:
+                            fragmentList.add(i, TreeFragment.getInstance());
+                            break;
+                        case 2:
+                            fragmentList.add(i, WxArticleFragment.getInstance());
+                            break;
+                        case 3:
+                            fragmentList.add(i, ProjectFragment.getInstance());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            lastIndex = savedInstanceState.getInt(CURRENT_INDEX, 0);
+            setFragmentPosition(lastIndex);
+        } else {
+            initFragment();
+            setFragmentPosition(0);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        for (int i = 0; i < FRAGMENT_SIZE; i++) {
+            //确保fragment是否已经加入到fragment manager中 并且fragment不为空时保存
+            if (fragmentList.get(i).isAdded() && fragmentList.get(i) != null) {
+                //保存已加载的Fragment
+                getSupportFragmentManager().putFragment(outState, FRAGMENT_TAG + i, fragmentList.get(i));
+            }
+        }
+        //传入当前选中的fragment值，在销毁重启后再定向到该fragment
+        outState.putInt(CURRENT_INDEX, lastIndex);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected int getLayoutResID() {
         return R.layout.activity_main;
     }
@@ -136,8 +191,6 @@ public class MainActivity extends BaseActivity implements UserContract.View {
 
     @Override
     protected void initData() {
-        initFragment();
-        setFragmentPosition(0);
     }
 
     @Override
@@ -169,11 +222,10 @@ public class MainActivity extends BaseActivity implements UserContract.View {
     }
 
     private void initFragment() {
-        fragmentList = new ArrayList<>();
-        fragmentList.add(HomeFragment.getInstance());
-        fragmentList.add(TreeFragment.getInstance());
-        fragmentList.add(WxArticleFragment.getInstance());
-        fragmentList.add(ProjectFragment.getInstance());
+        fragmentList.add(0, HomeFragment.getInstance());
+        fragmentList.add(1, TreeFragment.getInstance());
+        fragmentList.add(2, WxArticleFragment.getInstance());
+        fragmentList.add(3, ProjectFragment.getInstance());
     }
 
     private void setFragmentPosition(int position) {
@@ -182,17 +234,17 @@ public class MainActivity extends BaseActivity implements UserContract.View {
         } else if (position == 2 || position == 3) {
             appBarLayout.setElevation(0);
         }
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment currentFragment = fragmentList.get(position);
         Fragment lastFragment = fragmentList.get(lastIndex);
         lastIndex = position;
-        ft.hide(lastFragment);
+        fragmentTransaction.hide(lastFragment);
         if (!currentFragment.isAdded()) {
             getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
-            ft.add(R.id.frame_layout, currentFragment);
+            fragmentTransaction.add(R.id.frame_layout, currentFragment);
         }
-        ft.show(currentFragment);
-        ft.commitAllowingStateLoss();
+        fragmentTransaction.show(currentFragment);
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     /**

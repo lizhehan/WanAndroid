@@ -94,7 +94,9 @@ public abstract class BaseActivity extends AppCompatActivity implements NetBroad
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
         unregisterReceiver(netBroadcastReceiver);
     }
 }

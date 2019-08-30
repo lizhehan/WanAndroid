@@ -53,11 +53,10 @@ public class HomeFragment extends BaseFragment implements HomeRecyclerViewAdapte
     private LinearLayout bannerView;
     private int clickPosition;
     private boolean loading;
-    RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
+    private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
             if (!loading && linearLayoutManager.getItemCount() == (linearLayoutManager.findLastVisibleItemPosition() + 10)) {
                 loading = true;
@@ -162,8 +161,10 @@ public class HomeFragment extends BaseFragment implements HomeRecyclerViewAdapte
 
     @Override
     public void getHomepageListOk(HomeArticleBean dataBean, boolean isRefresh) {
-        if (swipeRefreshLayout.isRefreshing()) {
-            swipeRefreshLayout.setRefreshing(false);
+        if (swipeRefreshLayout != null) {
+            if (swipeRefreshLayout.isRefreshing()) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
         }
         showNormal();
         // 是 刷新adapter 则 添加数据到adapter
