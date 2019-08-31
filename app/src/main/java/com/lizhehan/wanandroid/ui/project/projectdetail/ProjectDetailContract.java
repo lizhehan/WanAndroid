@@ -14,14 +14,14 @@ public class ProjectDetailContract {
          * @param beans
          * @param isRefresh
          */
-        void getDemoListOK(ProjectDetailBean beans, boolean isRefresh);
+        void getProjectDetailOK(ProjectDetailBean beans, boolean isRefresh);
 
         /**
          * 获取 项目失败
          *
          * @param err
          */
-        void getDemoListErr(String err);
+        void getProjectDetailErr(String err);
     }
 
     public interface Presenter extends BasePre<View> {
@@ -32,18 +32,16 @@ public class ProjectDetailContract {
          * @param page
          * @param id
          */
-        void getDemoList(int page, int id);
+        void getProjectDetail(int page, int id);
 
         /**
          * 刷新
          */
-        void autoRefresh();
+        void refresh();
 
         /**
          * 加载更多
          */
         void loadMore();
-
     }
-
 }

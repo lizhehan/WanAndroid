@@ -23,9 +23,9 @@ public class WxArticleFragment extends BaseFragment implements WxArticleContract
     @BindView(R.id.view_pager_wxarticle)
     ViewPager wxArticleViewpager;
 
-    List<WxArticleBean> wxBeanList;
-    List<Fragment> fragmentList;
-    List<String> titles;
+    private List<WxArticleBean> wxBeanList;
+    private List<Fragment> fragmentList;
+    private List<String> titles;
     private WxArticlePresenter presenter;
     private WxArticleDetailFragmentAdapter adapter;
 
@@ -50,11 +50,11 @@ public class WxArticleFragment extends BaseFragment implements WxArticleContract
         wxBeanList = new ArrayList<>();
         titles = new LinkedList<>();
         showLoading();
-        presenter.getWxTitleList();
+        presenter.getWxArticle();
     }
 
     @Override
-    public void getWxResultOK(List<WxArticleBean> demoBeans) {
+    public void getWxArticleResultOK(List<WxArticleBean> demoBeans) {
         wxBeanList.clear();
         titles.clear();
         fragmentList.clear();
@@ -74,14 +74,14 @@ public class WxArticleFragment extends BaseFragment implements WxArticleContract
     }
 
     @Override
-    public void getWxResultErr(String info) {
+    public void getWxArticleResultErr(String info) {
         showError(info);
     }
 
     @Override
     public void reload() {
         super.reload();
-        presenter.getWxTitleList();
+        presenter.getWxArticle();
     }
 
     /**

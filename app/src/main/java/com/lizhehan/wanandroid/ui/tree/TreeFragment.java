@@ -1,8 +1,6 @@
 package com.lizhehan.wanandroid.ui.tree;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,18 +19,15 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class TreeFragment extends BaseFragment implements TreeContract.View,
-        TreeAdapter.OnItemClickListener {
+public class TreeFragment extends BaseFragment implements TreeContract.View, TreeAdapter.OnItemClickListener {
     @BindView(R.id.rv)
-    RecyclerView rvSystem;
+    RecyclerView rvTree;
     @BindView(R.id.normal_view)
     SwipeRefreshLayout swipeRefreshLayout;
-//    @BindView(R.id.normal_view)
-//    SmartRefreshLayout normalView;
 
     private List<TreeBean> treeBeanList;
     private TreePresenter presenter;
-    private TreeAdapter madapter;
+    private TreeAdapter mAdapter;
 
     public static TreeFragment getInstance() {
         return new TreeFragment();
@@ -47,10 +42,10 @@ public class TreeFragment extends BaseFragment implements TreeContract.View,
     protected void initData() {
         presenter = new TreePresenter(this);
         treeBeanList = new ArrayList<>();
-        madapter = new TreeAdapter(R.layout.item_tree, treeBeanList);
-        presenter.getSystemList();
-        madapter.setOnItemClickListener(this);
-        rvSystem.setAdapter(madapter);
+        mAdapter = new TreeAdapter(R.layout.item_tree, treeBeanList);
+        presenter.getTree();
+        mAdapter.setOnItemClickListener(this);
+        rvTree.setAdapter(mAdapter);
     }
 
     @Override
@@ -58,18 +53,28 @@ public class TreeFragment extends BaseFragment implements TreeContract.View,
         super.initView();
         showLoading();
         setRefresh();
-        rvSystem.setLayoutManager(new LinearLayoutManager(context));
+        rvTree.setLayoutManager(new LinearLayoutManager(context));
     }
 
     @Override
-    public void getSystemListOk(List<TreeBean> dataBean) {
+    public void getTreeOk(List<TreeBean> dataBean) {
+        if (swipeRefreshLayout != null) {
+            if (swipeRefreshLayout.isRefreshing()) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }
         treeBeanList = dataBean;
-        madapter.replaceData(dataBean);
+        mAdapter.replaceData(dataBean);
         showNormal();
     }
 
     @Override
-    public void getSystemListErr(String info) {
+    public void getTreeErr(String info) {
+        if (swipeRefreshLayout != null) {
+            if (swipeRefreshLayout.isRefreshing()) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }
         showError(info);
     }
 
@@ -80,8 +85,7 @@ public class TreeFragment extends BaseFragment implements TreeContract.View,
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.autoRefresh();
-                swipeRefreshLayout.setRefreshing(false);
+                presenter.refresh();
             }
         });
     }
@@ -89,14 +93,14 @@ public class TreeFragment extends BaseFragment implements TreeContract.View,
     @Override
     public void reload() {
         showLoading();
-        presenter.getSystemList();
+        presenter.getTree();
     }
 
     /**
      * 回到顶部
      */
     public void scrollToTop() {
-        rvSystem.scrollToPosition(0);
+        rvTree.scrollToPosition(0);
     }
 
     /**
@@ -106,12 +110,10 @@ public class TreeFragment extends BaseFragment implements TreeContract.View,
      * @param view
      * @param position
      */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, view, getString(R.string.web_view));
         Intent intent = new Intent(activity, TreeDetailActivity.class);
-        intent.putExtra(ConstantUtil.TREE, madapter.getData().get(position));
+        intent.putExtra(ConstantUtil.TREE, mAdapter.getData().get(position));
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }

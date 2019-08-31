@@ -28,10 +28,10 @@ public class WxArticleDetailPresenter extends BasePresenter<WxArticleDetailContr
     }
 
     @Override
-    public void onRefresh() {
+    public void refresh() {
         isRefresh = true;
         if (wxId != -1 && wxPage != -1) {
-            getWxPublicListResult(wxId, 1);
+            getWxArticleDetailResult(wxId, 1);
         }
     }
 
@@ -40,12 +40,12 @@ public class WxArticleDetailPresenter extends BasePresenter<WxArticleDetailContr
         isRefresh = false;
         if (wxId != -1 && wxPage != -1) {
             wxPage++;
-            getWxPublicListResult(wxId, wxPage);
+            getWxArticleDetailResult(wxId, wxPage);
         }
     }
 
     @Override
-    public void getWxPublicListResult(int id, int page) {
+    public void getWxArticleDetailResult(int id, int page) {
         this.wxId = id;
         this.wxPage = page;
         ApiStore.getInstance()
@@ -56,7 +56,7 @@ public class WxArticleDetailPresenter extends BasePresenter<WxArticleDetailContr
                 .subscribe(new Observer<BaseResponse<WxArticleDetailBean>>() {
                     @Override
                     public void onError(Throwable e) {
-                        view.getWxPublicErr(e.getMessage());
+                        view.getWxArticleDetailErr(e.getMessage());
                     }
 
                     @Override
@@ -70,9 +70,9 @@ public class WxArticleDetailPresenter extends BasePresenter<WxArticleDetailContr
                     @Override
                     public void onNext(BaseResponse<WxArticleDetailBean> wxArticleDetailBaseResponse) {
                         if (wxArticleDetailBaseResponse.getErrorCode() == ConstantUtil.REQUEST_ERROR) {
-                            view.getWxPublicErr(wxArticleDetailBaseResponse.getErrorMsg());
+                            view.getWxArticleDetailErr(wxArticleDetailBaseResponse.getErrorMsg());
                         } else if (wxArticleDetailBaseResponse.getErrorCode() == ConstantUtil.REQUEST_SUCCESS) {
-                            view.getWxPublicListOk(wxArticleDetailBaseResponse.getData(), isRefresh);
+                            view.getWxArticleDetailOk(wxArticleDetailBaseResponse.getData(), isRefresh);
                         }
                     }
 

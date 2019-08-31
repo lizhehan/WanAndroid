@@ -32,20 +32,17 @@ public class WxArticleDetailFragment extends BaseFragment implements WxArticleDe
     RecyclerView rv;
     @BindView(R.id.normal_view)
     SwipeRefreshLayout swipeRefreshLayout;
-    List<WxArticleDetailBean.DatasBean> datasBeanList;
-    WxArticleDetailRecyclerViewAdapter adapter;
+    private List<WxArticleDetailBean.DatasBean> datasBeanList;
+    private WxArticleDetailRecyclerViewAdapter mAdapter;
     private WxArticleDetailPresenter presenter;
     private boolean loading;
-    RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
+    private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
             if (!loading && linearLayoutManager.getItemCount() == (linearLayoutManager.findLastVisibleItemPosition() + 10)) {
-                loading = true;
                 presenter.onLoadMore();
-                loading = false;
             }
         }
     };
@@ -71,7 +68,7 @@ public class WxArticleDetailFragment extends BaseFragment implements WxArticleDe
     public void reload() {
         super.reload();
         if (id != -1) {
-            presenter.getWxPublicListResult(id, 1);
+            presenter.getWxArticleDetailResult(id, 1);
         }
     }
 
@@ -87,22 +84,22 @@ public class WxArticleDetailFragment extends BaseFragment implements WxArticleDe
     protected void initData() {
         presenter = new WxArticleDetailPresenter(this);
         datasBeanList = new ArrayList<>();
-        adapter = new WxArticleDetailRecyclerViewAdapter(R.layout.item_home, datasBeanList);
-        rv.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
+        mAdapter = new WxArticleDetailRecyclerViewAdapter(R.layout.item_home, datasBeanList);
+        rv.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(this);
         if (getArguments() != null) {
             id = getArguments().getInt(ConstantUtil.WX_FRAGMENT_ID);
-            presenter.getWxPublicListResult(id, 1);
+            presenter.getWxArticleDetailResult(id, 1);
         }
-        adapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
     }
 
     private void setRefresh() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.onRefresh();
-                swipeRefreshLayout.setRefreshing(false);
+                presenter.refresh();
+                loading = false;
             }
         });
 
@@ -110,18 +107,23 @@ public class WxArticleDetailFragment extends BaseFragment implements WxArticleDe
     }
 
     @Override
-    public void getWxPublicListOk(WxArticleDetailBean beans, boolean hasRefresh) {
-        if (id == -1 && adapter == null) {
+    public void getWxArticleDetailOk(WxArticleDetailBean beans, boolean hasRefresh) {
+        if (swipeRefreshLayout != null) {
+            if (swipeRefreshLayout.isRefreshing()) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }
+        if (id == -1 && mAdapter == null) {
             return;
         }
         if (hasRefresh) {
             datasBeanList.clear();
             datasBeanList.addAll(beans.getDatas());
-            adapter.replaceData(beans.getDatas());
+            mAdapter.replaceData(beans.getDatas());
         } else {
             if (beans.getDatas().size() > 0) {
                 datasBeanList.addAll(beans.getDatas());
-                adapter.addData(beans.getDatas());
+                mAdapter.addData(beans.getDatas());
             } else {
                 loading = true;
             }
@@ -130,7 +132,12 @@ public class WxArticleDetailFragment extends BaseFragment implements WxArticleDe
     }
 
     @Override
-    public void getWxPublicErr(String err) {
+    public void getWxArticleDetailErr(String err) {
+        if (swipeRefreshLayout != null) {
+            if (swipeRefreshLayout.isRefreshing()) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }
         showError(err);
     }
 
@@ -144,13 +151,13 @@ public class WxArticleDetailFragment extends BaseFragment implements WxArticleDe
     /**
      * item 跳转事件
      *
-     * @param madapter
+     * @param adapter
      * @param view
      * @param position
      */
     @Override
-    public void onItemClick(BaseQuickAdapter madapter, View view, int position) {
-        WxArticleDetailBean.DatasBean bean = adapter.getData().get(position);
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        WxArticleDetailBean.DatasBean bean = mAdapter.getData().get(position);
         Bundle bundle = new Bundle();
         bundle.putInt(ConstantUtil.DETAIL_ID, bean.getId());
         bundle.putString(ConstantUtil.DETAIL_PATH, bean.getLink());

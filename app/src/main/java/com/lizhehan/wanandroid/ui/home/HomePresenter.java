@@ -41,18 +41,18 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
     }
 
     @Override
-    public void autoRefresh() {
+    public void refresh() {
         isRefresh = true;
         currentPage = 0;
         getBanner();
-        getHomepageListData(currentPage);
+        getHomeData(currentPage);
     }
 
     @Override
     public void loadMore() {
         isRefresh = false;
         currentPage++;
-        getHomepageListData(currentPage);
+        getHomeData(currentPage);
     }
 
     /**
@@ -98,7 +98,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
      * @param page
      */
     @Override
-    public void getHomepageListData(int page) {
+    public void getHomeData(int page) {
         ApiStore.getInstance()
                 .create(ApiService.class)
                 .getArticleList(page)
@@ -107,7 +107,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                 .subscribe(new Observer<BaseResponse<HomeArticleBean>>() {
                     @Override
                     public void onError(Throwable e) {
-                        view.getHomepageListErr(e.getMessage());
+                        view.getHomeErr(e.getMessage());
                     }
 
                     @Override
@@ -123,9 +123,9 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                     @Override
                     public void onNext(BaseResponse<HomeArticleBean> homeArticleBaseResponse) {
                         if (homeArticleBaseResponse.getErrorCode() == ConstantUtil.REQUEST_ERROR) {
-                            view.getHomepageListErr(homeArticleBaseResponse.getErrorMsg());
+                            view.getHomeErr(homeArticleBaseResponse.getErrorMsg());
                         } else if (homeArticleBaseResponse.getErrorCode() == ConstantUtil.REQUEST_SUCCESS) {
-                            view.getHomepageListOk(homeArticleBaseResponse.getData(), isRefresh);
+                            view.getHomeOk(homeArticleBaseResponse.getData(), isRefresh);
                         }
                     }
                 });

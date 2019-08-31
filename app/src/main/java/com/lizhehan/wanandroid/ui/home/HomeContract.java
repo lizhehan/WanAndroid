@@ -17,9 +17,9 @@ public class HomeContract {
 
     public interface View extends BaseView {
 
-        void getHomepageListOk(HomeArticleBean dataBean, boolean isRefresh);
+        void getHomeOk(HomeArticleBean dataBean, boolean isRefresh);
 
-        void getHomepageListErr(String info);
+        void getHomeErr(String info);
 
         void getBannerOk(List<BannerBean> bannerBean);
 
@@ -34,7 +34,7 @@ public class HomeContract {
         /**
          * 刷新 列表
          */
-        void autoRefresh();
+        void refresh();
 
         /**
          * 加載更多
@@ -51,12 +51,11 @@ public class HomeContract {
          *
          * @param page
          */
-        void getHomepageListData(int page);
+        void getHomeData(int page);
 
         /**
          * 帐号 登录
          */
         void loginUser(String username, String password);
     }
-
 }

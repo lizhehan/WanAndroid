@@ -27,12 +27,12 @@ public class TreePresenter extends BasePresenter<TreeContract.View> implements T
     }
 
     @Override
-    public void autoRefresh() {
-        getSystemList();
+    public void refresh() {
+        getTree();
     }
 
     @Override
-    public void getSystemList() {
+    public void getTree() {
         ApiStore.getInstance()
                 .create(ApiService.class)
                 .getSystemList()
@@ -41,7 +41,7 @@ public class TreePresenter extends BasePresenter<TreeContract.View> implements T
                 .subscribe(new Observer<BaseResponse<List<TreeBean>>>() {
                     @Override
                     public void onError(Throwable e) {
-                        view.getSystemListErr(e.getMessage());
+                        view.getTreeErr(e.getMessage());
                     }
 
                     @Override
@@ -57,9 +57,9 @@ public class TreePresenter extends BasePresenter<TreeContract.View> implements T
                     @Override
                     public void onNext(BaseResponse<List<TreeBean>> treeBaseResponse) {
                         if (treeBaseResponse.getErrorCode() == ConstantUtil.REQUEST_SUCCESS) {
-                            view.getSystemListOk(treeBaseResponse.getData());
+                            view.getTreeOk(treeBaseResponse.getData());
                         } else if (treeBaseResponse.getErrorCode() == ConstantUtil.REQUEST_ERROR) {
-                            view.getSystemListErr(treeBaseResponse.getErrorMsg());
+                            view.getTreeErr(treeBaseResponse.getErrorMsg());
                         }
                     }
                 });

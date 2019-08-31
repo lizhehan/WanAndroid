@@ -15,17 +15,15 @@ public class TreeContract {
 
     interface View extends BaseView {
 
-        void getSystemListOk(List<TreeBean> dataBean);
+        void getTreeOk(List<TreeBean> dataBean);
 
-        void getSystemListErr(String info);
+        void getTreeErr(String info);
     }
 
     interface Presenter extends BasePre<View> {
 
-        void autoRefresh();
+        void refresh();
 
-        void getSystemList();
-
+        void getTree();
     }
-
 }

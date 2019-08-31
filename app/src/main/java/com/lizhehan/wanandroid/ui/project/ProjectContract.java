@@ -10,14 +10,14 @@ public class ProjectContract {
 
     public interface View extends BaseView {
 
-        void getDemoResultOK(List<ProjectBean> demoBeans);
+        void getProjectResultOK(List<ProjectBean> demoBeans);
 
-        void getDemoResultErr(String info);
+        void getProjectResultErr(String info);
     }
 
     public interface Presenter extends BasePre<View> {
 
-        void getDemoTitleList();
+        void getProjectDetail();
 
     }
 

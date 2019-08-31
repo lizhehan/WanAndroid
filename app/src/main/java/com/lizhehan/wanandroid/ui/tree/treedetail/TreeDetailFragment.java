@@ -25,8 +25,7 @@ import butterknife.BindView;
  * 体系详情界面 碎片  ( 体系 二级数据详细信息列表)
  */
 
-public class TreeDetailFragment extends BaseFragment implements TreeDetailContract.View
-        , TreeDetailRecyclerViewAdapter.OnItemClickListener {
+public class TreeDetailFragment extends BaseFragment implements TreeDetailContract.View, TreeDetailRecyclerViewAdapter.OnItemClickListener {
     @BindView(R.id.rv)
     RecyclerView rv;
     @BindView(R.id.normal_view)
@@ -35,18 +34,15 @@ public class TreeDetailFragment extends BaseFragment implements TreeDetailContra
     private int id;
     private TreeDetailPresenter presenter;
     private List<TreeDetailBean.DatasBean> datasBeanList;
-    private TreeDetailRecyclerViewAdapter adapter;
+    private TreeDetailRecyclerViewAdapter mAdapter;
     private boolean loading;
-    RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
+    private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
             if (!loading && linearLayoutManager.getItemCount() == (linearLayoutManager.findLastVisibleItemPosition() + 10)) {
-                loading = true;
                 presenter.loadMore();
-                loading = false;
             }
         }
     };
@@ -77,12 +73,12 @@ public class TreeDetailFragment extends BaseFragment implements TreeDetailContra
         presenter = new TreeDetailPresenter(this);
         if (getArguments() != null) {
             id = getArguments().getInt(ConstantUtil.TREE_FRAGMENT_ID);
-            presenter.getSystemDetailList(0, id);
+            presenter.getTreeDetailList(0, id);
         }
         datasBeanList = new ArrayList<>();
-        adapter = new TreeDetailRecyclerViewAdapter(R.layout.item_home, datasBeanList);
-        adapter.setOnItemClickListener(this);
-        rv.setAdapter(adapter);
+        mAdapter = new TreeDetailRecyclerViewAdapter(R.layout.item_home, datasBeanList);
+        mAdapter.setOnItemClickListener(this);
+        rv.setAdapter(mAdapter);
 
     }
 
@@ -90,24 +86,28 @@ public class TreeDetailFragment extends BaseFragment implements TreeDetailContra
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.autoRefresh();
-                swipeRefreshLayout.setRefreshing(false);
+                presenter.refresh();
+                loading = false;
             }
         });
-
         rv.addOnScrollListener(scrollListener);
     }
 
     @Override
-    public void getSystemDetailListResultOK(TreeDetailBean treeDetailBean, boolean isRefresh) {
+    public void getTreeDetailResultOK(TreeDetailBean treeDetailBean, boolean isRefresh) {
+        if (swipeRefreshLayout != null) {
+            if (swipeRefreshLayout.isRefreshing()) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }
         showNormal();
         if (isRefresh) {
             datasBeanList = treeDetailBean.getDatas();
-            adapter.replaceData(treeDetailBean.getDatas());
+            mAdapter.replaceData(treeDetailBean.getDatas());
         } else {
             if (treeDetailBean.getDatas().size() > 0) {
                 datasBeanList.addAll(treeDetailBean.getDatas());
-                adapter.addData(treeDetailBean.getDatas());
+                mAdapter.addData(treeDetailBean.getDatas());
             } else {
                 loading = true;
             }
@@ -115,21 +115,25 @@ public class TreeDetailFragment extends BaseFragment implements TreeDetailContra
     }
 
     @Override
-    public void getSystemDetailListResultErr(String info) {
+    public void getTreeDetailResultErr(String info) {
+        if (swipeRefreshLayout != null) {
+            if (swipeRefreshLayout.isRefreshing()) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }
         showError(info);
     }
-
 
     /**
      * item 点击事件
      *
-     * @param madapter
+     * @param adapter
      * @param view
      * @param position
      */
     @Override
-    public void onItemClick(BaseQuickAdapter madapter, View view, int position) {
-        TreeDetailBean.DatasBean bean = adapter.getData().get(position);
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        TreeDetailBean.DatasBean bean = mAdapter.getData().get(position);
         Bundle bundle = new Bundle();
         bundle.putInt(ConstantUtil.DETAIL_ID, bean.getId());
         bundle.putString(ConstantUtil.DETAIL_PATH, bean.getLink());
@@ -143,12 +147,11 @@ public class TreeDetailFragment extends BaseFragment implements TreeDetailContra
         rv.smoothScrollToPosition(0);
     }
 
-
     @Override
     public void reload() {
         super.reload();
         if (presenter != null && id != -1) {
-            presenter.getSystemDetailList(0, id);
+            presenter.getTreeDetailList(0, id);
         }
         showLoading();
     }

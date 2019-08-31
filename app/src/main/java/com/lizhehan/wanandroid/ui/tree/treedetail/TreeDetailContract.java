@@ -18,23 +18,22 @@ public class TreeDetailContract {
          * @param treeDetailBean
          * @param isRefresh
          */
-        void getSystemDetailListResultOK(TreeDetailBean treeDetailBean, boolean isRefresh);
+        void getTreeDetailResultOK(TreeDetailBean treeDetailBean, boolean isRefresh);
 
         /**
          * 获取 数据失败
          *
          * @param info
          */
-        void getSystemDetailListResultErr(String info);
+        void getTreeDetailResultErr(String info);
     }
 
     public interface Presenter extends BasePre<View> {
 
-        void autoRefresh();
+        void refresh();
 
         void loadMore();
 
-        void getSystemDetailList(int page, int id);
+        void getTreeDetailList(int page, int id);
     }
-
 }

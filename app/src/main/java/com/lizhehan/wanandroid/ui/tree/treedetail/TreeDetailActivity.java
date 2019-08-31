@@ -58,8 +58,7 @@ public class TreeDetailActivity extends BaseActivity {
     protected void initData() {
         titles = new ArrayList<>();
         fragments = new ArrayList<>();
-//        adapter = new TreeDetailFragmentAdapter(getSupportFragmentManager(), fragments);
-        getSystemBundleData();
+        getTreeBundleData();
     }
 
     @Override
@@ -70,13 +69,12 @@ public class TreeDetailActivity extends BaseActivity {
     /**
      * 获取体系界面传过来的参数
      */
-    private void getSystemBundleData() {
+    private void getTreeBundleData() {
         TreeBean treeBean = (TreeBean) getIntent().getSerializableExtra(ConstantUtil.TREE);
         if (treeBean != null) {
             fragments.clear();
             treeToolbar.setTitle(treeBean.getName());
             for (TreeBean.ChildrenBean childrenBean : treeBean.getChildren()) {
-//                treeTabLayout.addTab(treeTabLayout.newTab().setText(childrenBean.getName()));
                 titles.add(childrenBean.getName());
                 fragments.add(TreeDetailFragment.getInstance(childrenBean.getId()));
             }
@@ -84,7 +82,6 @@ public class TreeDetailActivity extends BaseActivity {
         adapter = new TreeDetailFragmentAdapter(getSupportFragmentManager(), fragments, titles);
         treeViewpager.setOffscreenPageLimit(2);
         treeViewpager.setAdapter(adapter);
-//        systemTabLayout.setViewPager(systemViewpager, titles.toArray(new String[titles.size()]));
         treeTabLayout.setupWithViewPager(treeViewpager);
         adapter.notifyDataSetChanged();
     }

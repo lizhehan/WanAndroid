@@ -36,7 +36,7 @@ public class ProjectDetailPresenter extends BasePresenter<ProjectDetailContract.
      * @param id
      */
     @Override
-    public void getDemoList(int page, int id) {
+    public void getProjectDetail(int page, int id) {
         this.id = id;
         this.page = page;
         ApiStore.getInstance()
@@ -47,7 +47,7 @@ public class ProjectDetailPresenter extends BasePresenter<ProjectDetailContract.
                 .subscribe(new Observer<BaseResponse<ProjectDetailBean>>() {
                     @Override
                     public void onError(Throwable e) {
-                        view.getDemoListErr(e.getMessage());
+                        view.getProjectDetailErr(e.getMessage());
                     }
 
                     @Override
@@ -62,20 +62,20 @@ public class ProjectDetailPresenter extends BasePresenter<ProjectDetailContract.
                     @Override
                     public void onNext(BaseResponse<ProjectDetailBean> projectDetailBaseResponse) {
                         if (projectDetailBaseResponse.getErrorCode() == ConstantUtil.REQUEST_ERROR) {
-                            view.getDemoListErr(projectDetailBaseResponse.getErrorMsg());
+                            view.getProjectDetailErr(projectDetailBaseResponse.getErrorMsg());
                         } else if (projectDetailBaseResponse.getErrorCode() == ConstantUtil.REQUEST_SUCCESS) {
-                            view.getDemoListOK(projectDetailBaseResponse.getData(), isRefresh);
+                            view.getProjectDetailOK(projectDetailBaseResponse.getData(), isRefresh);
                         }
                     }
                 });
     }
 
     @Override
-    public void autoRefresh() {
+    public void refresh() {
         isRefresh = true;
         page = 1;
         if (id != -1) {
-            getDemoList(page, id);
+            getProjectDetail(page, id);
         }
     }
 
@@ -84,7 +84,7 @@ public class ProjectDetailPresenter extends BasePresenter<ProjectDetailContract.
         isRefresh = false;
         page++;
         if (id != -1) {
-            getDemoList(page, id);
+            getProjectDetail(page, id);
         }
     }
 }

@@ -27,7 +27,7 @@ public class WxArticlePresenter extends BasePresenter<WxArticleContract.View> im
     }
 
     @Override
-    public void getWxTitleList() {
+    public void getWxArticle() {
         ApiStore.getInstance()
                 .create(ApiService.class)
                 .getWXList()
@@ -41,15 +41,15 @@ public class WxArticlePresenter extends BasePresenter<WxArticleContract.View> im
                     @Override
                     public void onNext(BaseResponse<List<WxArticleBean>> wxArticleBaseResponse) {
                         if (wxArticleBaseResponse.getErrorCode() == ConstantUtil.REQUEST_SUCCESS) {
-                            view.getWxResultOK(wxArticleBaseResponse.data);
+                            view.getWxArticleResultOK(wxArticleBaseResponse.data);
                         } else if (wxArticleBaseResponse.getErrorCode() == ConstantUtil.REQUEST_ERROR) {
-                            view.getWxResultErr(wxArticleBaseResponse.getErrorMsg());
+                            view.getWxArticleResultErr(wxArticleBaseResponse.getErrorMsg());
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        view.getWxResultErr(e.getMessage());
+                        view.getWxArticleResultErr(e.getMessage());
                     }
 
                     @Override

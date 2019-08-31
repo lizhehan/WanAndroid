@@ -14,15 +14,13 @@ public class WxArticleContract {
 
     public interface View extends BaseView {
 
-        void getWxResultOK(List<WxArticleBean> demoBeans);
+        void getWxArticleResultOK(List<WxArticleBean> demoBeans);
 
-        void getWxResultErr(String info);
+        void getWxArticleResultErr(String info);
     }
 
     public interface Presenter extends BasePre<View> {
 
-        void getWxTitleList();
-
+        void getWxArticle();
     }
-
 }

@@ -59,9 +59,7 @@ public class HomeFragment extends BaseFragment implements HomeRecyclerViewAdapte
             super.onScrolled(recyclerView, dx, dy);
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
             if (!loading && linearLayoutManager.getItemCount() == (linearLayoutManager.findLastVisibleItemPosition() + 10)) {
-                loading = true;
                 presenter.loadMore();
-                loading = false;
             }
         }
     };
@@ -88,7 +86,7 @@ public class HomeFragment extends BaseFragment implements HomeRecyclerViewAdapte
         presenter = new HomePresenter(this);
         collectPresenter = new WebViewPresenter(this);
         presenter.getBanner();
-        presenter.getHomepageListData(0);
+        presenter.getHomeData(0);
         mAdapter = new HomeRecyclerViewAdapter(R.layout.item_home, articleList);
         mAdapter.addHeaderView(bannerView);
         mAdapter.setOnItemClickListener(this);
@@ -118,7 +116,7 @@ public class HomeFragment extends BaseFragment implements HomeRecyclerViewAdapte
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.autoRefresh();
+                presenter.refresh();
             }
         });
         rv.addOnScrollListener(scrollListener);
@@ -160,7 +158,7 @@ public class HomeFragment extends BaseFragment implements HomeRecyclerViewAdapte
     }
 
     @Override
-    public void getHomepageListOk(HomeArticleBean dataBean, boolean isRefresh) {
+    public void getHomeOk(HomeArticleBean dataBean, boolean isRefresh) {
         if (swipeRefreshLayout != null) {
             if (swipeRefreshLayout.isRefreshing()) {
                 swipeRefreshLayout.setRefreshing(false);
@@ -178,7 +176,7 @@ public class HomeFragment extends BaseFragment implements HomeRecyclerViewAdapte
     }
 
     @Override
-    public void getHomepageListErr(String info) {
+    public void getHomeErr(String info) {
         if (swipeRefreshLayout != null) {
             if (swipeRefreshLayout.isRefreshing()) {
                 swipeRefreshLayout.setRefreshing(false);
@@ -260,7 +258,7 @@ public class HomeFragment extends BaseFragment implements HomeRecyclerViewAdapte
     public void reload() {
         showLoading();
         presenter.getBanner();
-        presenter.autoRefresh();
+        presenter.refresh();
     }
 
     public void scrollToTop() {

@@ -122,6 +122,12 @@ public class WebViewActivity extends BaseActivity implements WebViewContract.vie
         setWebView(detailLink);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mWebView.stopLoading();
+    }
+
 //    @Override
 //    protected void checkNet() {
 //        if (NetUtil.getNetWorkState(context) == NetUtil.NETWORK_NONE) {
@@ -146,6 +152,8 @@ public class WebViewActivity extends BaseActivity implements WebViewContract.vie
         webSettings.setBuiltInZoomControls(true);
         webSettings.setDisplayZoomControls(false);
         webSettings.setAllowFileAccess(true);
+        webSettings.setAppCacheEnabled(true);
+        webSettings.setDatabaseEnabled(true);
         mWebView.setWebViewClient(new WebViewClient() {
 //            @Override
 //            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {

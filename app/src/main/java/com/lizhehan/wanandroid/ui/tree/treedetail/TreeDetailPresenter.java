@@ -29,11 +29,11 @@ public class TreeDetailPresenter extends BasePresenter<TreeDetailContract.View>
     }
 
     @Override
-    public void autoRefresh() {
+    public void refresh() {
         isRefresh = true;
         if (id != -1) {
             currentPage = 0;
-            getSystemDetailList(currentPage, id);
+            getTreeDetailList(currentPage, id);
         }
     }
 
@@ -42,12 +42,12 @@ public class TreeDetailPresenter extends BasePresenter<TreeDetailContract.View>
         isRefresh = false;
         if (id != -1) {
             currentPage++;
-            getSystemDetailList(currentPage, id);
+            getTreeDetailList(currentPage, id);
         }
     }
 
     @Override
-    public void getSystemDetailList(int page, int id) {
+    public void getTreeDetailList(int page, int id) {
         this.id = id;
         this.currentPage = page;
         ApiStore.getInstance()
@@ -58,7 +58,7 @@ public class TreeDetailPresenter extends BasePresenter<TreeDetailContract.View>
                 .subscribe(new Observer<BaseResponse<TreeDetailBean>>() {
                     @Override
                     public void onError(Throwable e) {
-                        view.getSystemDetailListResultErr(e.getMessage());
+                        view.getTreeDetailResultErr(e.getMessage());
                     }
 
                     @Override
@@ -74,9 +74,9 @@ public class TreeDetailPresenter extends BasePresenter<TreeDetailContract.View>
                     @Override
                     public void onNext(BaseResponse<TreeDetailBean> treeDetailBeanBaseResponse) {
                         if (treeDetailBeanBaseResponse.getErrorCode() == ConstantUtil.REQUEST_ERROR) {
-                            view.getSystemDetailListResultErr(treeDetailBeanBaseResponse.getErrorMsg());
+                            view.getTreeDetailResultErr(treeDetailBeanBaseResponse.getErrorMsg());
                         } else if (treeDetailBeanBaseResponse.getErrorCode() == ConstantUtil.REQUEST_SUCCESS) {
-                            view.getSystemDetailListResultOK(treeDetailBeanBaseResponse.getData(), isRefresh);
+                            view.getTreeDetailResultOK(treeDetailBeanBaseResponse.getData(), isRefresh);
                         }
                     }
                 });

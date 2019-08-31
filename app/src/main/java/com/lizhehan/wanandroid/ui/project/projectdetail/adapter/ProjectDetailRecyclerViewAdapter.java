@@ -1,11 +1,17 @@
 package com.lizhehan.wanandroid.ui.project.projectdetail.adapter;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.lizhehan.wanandroid.R;
@@ -38,6 +44,23 @@ public class ProjectDetailRecyclerViewAdapter extends BaseQuickAdapter<ProjectDe
         if (!TextUtils.isEmpty(item.getAuthor())) {
             helper.setText(R.id.tv_author, item.getAuthor());
         }
-        Glide.with(mContext).load(item.getEnvelopePic()).into((ImageView) helper.getView(R.id.image_simple));
+        helper.getView(R.id.progress_bar_loading).setVisibility(View.VISIBLE);
+        Glide.with(mContext)
+                .load(item.getEnvelopePic())
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        helper.getView(R.id.progress_bar_loading).setVisibility(View.INVISIBLE);
+                        helper.getView(R.id.tv_image_failed_to_load).setVisibility(View.VISIBLE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        helper.getView(R.id.progress_bar_loading).setVisibility(View.INVISIBLE);
+                        return false;
+                    }
+                })
+                .into((ImageView) helper.getView(R.id.image_simple));
     }
 }

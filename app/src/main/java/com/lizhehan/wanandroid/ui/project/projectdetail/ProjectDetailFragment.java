@@ -33,20 +33,17 @@ public class ProjectDetailFragment extends BaseFragment implements ProjectDetail
     @BindView(R.id.normal_view)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    ProjectDetailRecyclerViewAdapter adapter;
-    ProjectDetailPresenter presenter;
-    List<ProjectDetailBean.DatasBean> demoDetailListBeans;
+    private ProjectDetailRecyclerViewAdapter mAdapter;
+    private ProjectDetailPresenter presenter;
+    private List<ProjectDetailBean.DatasBean> demoDetailListBeans;
     private boolean loading;
-    RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
+    private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
             if (!loading && linearLayoutManager.getItemCount() == (linearLayoutManager.findLastVisibleItemPosition() + 10)) {
-                loading = true;
                 presenter.loadMore();
-                loading = false;
             }
         }
     };
@@ -85,22 +82,22 @@ public class ProjectDetailFragment extends BaseFragment implements ProjectDetail
     protected void initData() {
         presenter = new ProjectDetailPresenter(this);
         demoDetailListBeans = new LinkedList<>();
-        adapter = new ProjectDetailRecyclerViewAdapter(R.layout.item_project, demoDetailListBeans);
-        adapter.setOnItemClickListener(this);
+        mAdapter = new ProjectDetailRecyclerViewAdapter(R.layout.item_project, demoDetailListBeans);
+        mAdapter.setOnItemClickListener(this);
         if (getArguments() != null) {
             id = getArguments().getInt(ConstantUtil.PROJECT_FRAGMENT_ID);
-            presenter.getDemoList(1, id);
+            presenter.getProjectDetail(1, id);
         }
-        rv.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        rv.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
     }
 
     private void setRefresh() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.autoRefresh();
-                swipeRefreshLayout.setRefreshing(false);
+                presenter.refresh();
+                loading = false;
             }
         });
 
@@ -111,7 +108,7 @@ public class ProjectDetailFragment extends BaseFragment implements ProjectDetail
     public void reload() {
         super.reload();
         if (id != -1) {
-            presenter.getDemoList(1, id);
+            presenter.getProjectDetail(1, id);
         }
     }
 
@@ -119,18 +116,23 @@ public class ProjectDetailFragment extends BaseFragment implements ProjectDetail
      * 刷新 重置，不刷新 添加
      */
     @Override
-    public void getDemoListOK(ProjectDetailBean beans, boolean isRefresh) {
-        if (id == -1 && adapter == null) {
+    public void getProjectDetailOK(ProjectDetailBean beans, boolean isRefresh) {
+        if (swipeRefreshLayout != null) {
+            if (swipeRefreshLayout.isRefreshing()) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }
+        if (id == -1 && mAdapter == null) {
             return;
         }
         if (isRefresh) {
             demoDetailListBeans.clear();
             demoDetailListBeans.addAll(beans.getDatas());
-            adapter.replaceData(beans.getDatas());
+            mAdapter.replaceData(beans.getDatas());
         } else {
             if (beans.getDatas().size() > 0) {
                 demoDetailListBeans.addAll(beans.getDatas());
-                adapter.addData(beans.getDatas());
+                mAdapter.addData(beans.getDatas());
             } else {
                 loading = true;
             }
@@ -139,7 +141,12 @@ public class ProjectDetailFragment extends BaseFragment implements ProjectDetail
     }
 
     @Override
-    public void getDemoListErr(String err) {
+    public void getProjectDetailErr(String err) {
+        if (swipeRefreshLayout != null) {
+            if (swipeRefreshLayout.isRefreshing()) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }
         showError(err);
     }
 
@@ -153,13 +160,13 @@ public class ProjectDetailFragment extends BaseFragment implements ProjectDetail
     /**
      * item 跳转事件
      *
-     * @param madapter
+     * @param adapter
      * @param view
      * @param position
      */
     @Override
-    public void onItemClick(BaseQuickAdapter madapter, View view, int position) {
-        ProjectDetailBean.DatasBean bean = adapter.getData().get(position);
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        ProjectDetailBean.DatasBean bean = mAdapter.getData().get(position);
         Bundle bundle = new Bundle();
         bundle.putInt(ConstantUtil.DETAIL_ID, bean.getId());
         bundle.putString(ConstantUtil.DETAIL_PATH, bean.getLink());

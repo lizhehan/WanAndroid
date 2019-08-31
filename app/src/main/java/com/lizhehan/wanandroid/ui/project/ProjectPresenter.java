@@ -27,7 +27,7 @@ public class ProjectPresenter extends BasePresenter<ProjectContract.View> implem
     }
 
     @Override
-    public void getDemoTitleList() {
+    public void getProjectDetail() {
         ApiStore.getInstance()
                 .create(ApiService.class)
                 .getDemoTitleList()
@@ -36,7 +36,7 @@ public class ProjectPresenter extends BasePresenter<ProjectContract.View> implem
                 .subscribe(new Observer<BaseResponse<List<ProjectBean>>>() {
                     @Override
                     public void onError(Throwable e) {
-                        view.getDemoResultErr(e.getMessage());
+                        view.getProjectResultErr(e.getMessage());
                     }
 
                     @Override
@@ -52,9 +52,9 @@ public class ProjectPresenter extends BasePresenter<ProjectContract.View> implem
                     @Override
                     public void onNext(BaseResponse<List<ProjectBean>> projectBaseResponse) {
                         if (projectBaseResponse.getErrorCode() == ConstantUtil.REQUEST_SUCCESS) {
-                            view.getDemoResultOK(projectBaseResponse.getData());
+                            view.getProjectResultOK(projectBaseResponse.getData());
                         } else if (projectBaseResponse.getErrorCode() == ConstantUtil.REQUEST_ERROR) {
-                            view.getDemoResultErr(projectBaseResponse.getErrorMsg());
+                            view.getProjectResultErr(projectBaseResponse.getErrorMsg());
                         }
                     }
                 });

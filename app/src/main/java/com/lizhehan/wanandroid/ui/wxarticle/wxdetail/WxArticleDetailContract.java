@@ -8,19 +8,17 @@ public class WxArticleDetailContract {
 
     interface View extends BaseView {
 
-        void getWxPublicListOk(WxArticleDetailBean bean, boolean hasRefresh);
+        void getWxArticleDetailOk(WxArticleDetailBean bean, boolean hasRefresh);
 
-        void getWxPublicErr(String err);
-
+        void getWxArticleDetailErr(String err);
     }
 
     interface Presenter extends BasePre<View> {
 
-        void onRefresh();
+        void refresh();
 
         void onLoadMore();
 
-        void getWxPublicListResult(int id, int page);
-
+        void getWxArticleDetailResult(int id, int page);
     }
 }

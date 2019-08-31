@@ -23,9 +23,11 @@
     <string name="copied_link">已复制网址</string>
     <string name="saved_image">已保存图片</string>
     <string name="failed_to_save_image">保存图片失败</string>
+    <string name="image_failed_to_load">图片加载出错</string>
     <string name="dialog_request_permissions_title">WanAndroid 需要具备存储空间使用权限才能保存图片</string>
     <string name="dialog_request_permissions_message">图片保存位置&#160;</string>
     <string name="dialog_request_permissions_next">继续</string>
+    <string name="no_more">已经到达列表底部</string>
     <string name="data_loading">加载中…</string>
     <string name="data_load_error">页面加载出错</string>
     <string name="connect_to_the_internet">无法连接到互联网</string>

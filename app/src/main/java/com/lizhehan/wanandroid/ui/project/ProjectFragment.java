@@ -23,11 +23,11 @@ public class ProjectFragment extends BaseFragment implements ProjectContract.Vie
     @BindView(R.id.view_pager_project)
     ViewPager projectViewPager;
 
-    List<ProjectBean> demoBeanList;
-    List<Fragment> fragmentList;
-    List<String> titles;
-    ProjectPresenter projectPresenter;
-    ProjectDetailFragmentAdapter adapter;
+    private List<ProjectBean> demoBeanList;
+    private List<Fragment> fragmentList;
+    private List<String> titles;
+    private ProjectPresenter projectPresenter;
+    private ProjectDetailFragmentAdapter adapter;
 
     public static ProjectFragment getInstance() {
         return new ProjectFragment();
@@ -44,7 +44,7 @@ public class ProjectFragment extends BaseFragment implements ProjectContract.Vie
         fragmentList = new ArrayList<>();
         titles = new LinkedList<>();
         projectPresenter = new ProjectPresenter(this);
-        projectPresenter.getDemoTitleList();
+        projectPresenter.getProjectDetail();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ProjectFragment extends BaseFragment implements ProjectContract.Vie
     }
 
     @Override
-    public void getDemoResultOK(List<ProjectBean> demoBeans) {
+    public void getProjectResultOK(List<ProjectBean> demoBeans) {
         demoBeanList.clear();
         fragmentList.clear();
         demoBeanList.addAll(demoBeans);
@@ -72,14 +72,14 @@ public class ProjectFragment extends BaseFragment implements ProjectContract.Vie
     }
 
     @Override
-    public void getDemoResultErr(String info) {
+    public void getProjectResultErr(String info) {
         showError(info);
     }
 
     @Override
     public void reload() {
         showLoading();
-        projectPresenter.getDemoTitleList();
+        projectPresenter.getProjectDetail();
     }
 
     /**
