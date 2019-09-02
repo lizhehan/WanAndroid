@@ -19,10 +19,12 @@
 - [youth5201314/banner](https://github.com/youth5201314/banner) - Android广告图片轮播控件，支持无限循环和多种主题，可以灵活设置轮播样式、动画、轮播和切换时间、位置、图片加载框架等！
 
 ## App 下载
-稍后提供
+[直接下载](https://github.com/lizhehan/MyResource/raw/master/WanAndroid/apks/com.lizhehan.wanandroid-v1.0.0.apk)
 
 ## 屏幕截图
-稍后提供（部分 UI 细节还在改动）
+| ![WanAndroid_home.jpg](https://github.com/lizhehan/MyResource/raw/master/WanAndroid/pictures/WanAndroid_home.jpg "WanAndroid_home.jpg") | ![WanAndroid_tree.jpg](https://github.com/lizhehan/MyResource/raw/master/WanAndroid/pictures/WanAndroid_tree.jpg "WanAndroid_tree.jpg") | ![WanAndroid_webview.jpg](https://github.com/lizhehan/MyResource/raw/master/WanAndroid/pictures/WanAndroid_webview.jpg "WanAndroid_webview.jpg") |
+| - | - | - |
+| ![WanAndroid_wxarticle.jpg](https://github.com/lizhehan/MyResource/raw/master/WanAndroid/pictures/WanAndroid_wxarticle.jpg "WanAndroid_wxarticle.jpg") | ![WanAndroid_project.jpg](https://github.com/lizhehan/MyResource/raw/master/WanAndroid/pictures/WanAndroid_project.jpg "WanAndroid_project.jpg") | ![WanAndroid_main.jpg](https://github.com/lizhehan/MyResource/raw/master/WanAndroid/pictures/WanAndroid_main.jpg "WanAndroid_main.jpg") |
 
 ## ToDo
 1. 完善代码注释
@@ -34,7 +36,7 @@
 
 ## 感谢
 - 鸿洋大神提供的 [WanAndroid 开放 API](https://www.wanandroid.com/blog/show/2)
-- etc
+- 等等
 
 ## 更新日志
 ### 1.0.0(1)
