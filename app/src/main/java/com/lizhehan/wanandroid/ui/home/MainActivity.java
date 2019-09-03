@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.lizhehan.wanandroid.R;
 import com.lizhehan.wanandroid.base.BaseActivity;
 import com.lizhehan.wanandroid.data.bean.UserBean;
+import com.lizhehan.wanandroid.ui.about.AboutActivity;
 import com.lizhehan.wanandroid.ui.collect.CollectActivity;
 import com.lizhehan.wanandroid.ui.project.ProjectFragment;
 import com.lizhehan.wanandroid.ui.tree.TreeFragment;
@@ -300,6 +301,8 @@ public class MainActivity extends BaseActivity implements UserContract.View {
                 BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog(activity);
                 View dialogView = activity.getLayoutInflater().inflate(R.layout.dialog_bottom_sheet, null);
                 RelativeLayout relative_account = dialogView.findViewById(R.id.view_account);
+                RelativeLayout relative_history = dialogView.findViewById(R.id.view_history);
+                RelativeLayout relative_read_later = dialogView.findViewById(R.id.view_read_later);
                 RelativeLayout relative_collect = dialogView.findViewById(R.id.view_collect);
                 RelativeLayout relative_about = dialogView.findViewById(R.id.view_about);
                 ImageView img_account = dialogView.findViewById(R.id.img_account);
@@ -363,10 +366,24 @@ public class MainActivity extends BaseActivity implements UserContract.View {
                         }
                     }
                 });
-                relative_about.setOnClickListener(new View.OnClickListener() {
+                relative_history.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(context, "开发中...", Toast.LENGTH_SHORT).show();
+                        mBottomSheetDialog.dismiss();
+                    }
+                });
+                relative_read_later.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context, "开发中...", Toast.LENGTH_SHORT).show();
+                        mBottomSheetDialog.dismiss();
+                    }
+                });
+                relative_about.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(activity, AboutActivity.class));
                         mBottomSheetDialog.dismiss();
                     }
                 });

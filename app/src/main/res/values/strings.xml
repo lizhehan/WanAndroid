@@ -7,6 +7,8 @@
     <string name="bottom_navigation_project">项目</string>
     <string name="dialog_bottom_sheet_username">点击登录</string>
     <string name="dialog_bottom_sheet_collect">我的收藏夹</string>
+    <string name="dialog_bottom_sheet_history">历史记录</string>
+    <string name="dialog_bottom_sheet_read_later">稍后阅读</string>
     <string name="dialog_bottom_sheet_about">关于 WanAndroid</string>
     <string name="dialog_bottom_sheet_status">已登录</string>
     <string name="menu_search">搜索</string>
@@ -57,9 +59,21 @@
     <string name="cancel_collect_success">已取消收藏</string>
     <string name="cancel_collect_fail">取消收藏失败</string>
     <string name="undo">撤销</string>
+    <string name="open_source_project">开源项目</string>
     <string name="project">项目</string>
     <string name="hot">热门</string>
     <string name="questions_and_answers">问答</string>
-    <string name="wechat">公众号</string>
+    <string name="official_accounts">公众号</string>
+    <string name="about_title_wanandroid">玩 Android</string>
+    <string name="about_summary_wanandroid">每日推荐优质文章</string>
+    <string name="about_title_api">玩 Android 开放 API</string>
+    <string name="about_summary_api">一起来做个 App 吧</string>
+    <string name="about_title_feedback">发送反馈</string>
+    <string name="about_summary_feedback">帮助我改进 WanAndroid 应用</string>
+    <string name="about_title_github">开放源代码</string>
+    <string name="about_summary_github">前往 GitHub 查看本应用开放源代码</string>
+    <string name="about_title_version">应用版本</string>
+    <string name="about_title_share">分享应用</string>
+    <string name="about_content_share">分享一个好用好看的 WanAndroid App:\nhttps://github.com/lizhehan/WanAndroid</string>
 
 </resources>
