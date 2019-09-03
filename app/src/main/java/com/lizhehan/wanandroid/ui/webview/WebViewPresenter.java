@@ -25,7 +25,6 @@ public class WebViewPresenter extends BasePresenter<WebViewContract.view> implem
 
     /**
      * 收藏文章
-     *
      * @param id
      */
     @Override
@@ -64,7 +63,6 @@ public class WebViewPresenter extends BasePresenter<WebViewContract.view> implem
 
     /**
      * 取消收藏文章
-     *
      * @param id
      */
     @Override

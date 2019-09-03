@@ -38,7 +38,7 @@ public class HomeRecyclerViewAdapter extends BaseQuickAdapter<HomeArticleBean.Da
             String classifyName = item.getSuperChapterName() + " / " + item.getChapterName();
             helper.setText(R.id.tv_type, classifyName);
         }
-        if (item.getSuperChapterName().contains(mContext.getString(R.string.project))) {
+        if (item.getSuperChapterName().contains(mContext.getString(R.string.open_source_project))) {
             helper.getView(R.id.tv_tag).setVisibility(View.VISIBLE);
             helper.setText(R.id.tv_tag, mContext.getString(R.string.project));
             helper.setTextColor(R.id.tv_tag, mContext.getResources().getColor(R.color.google_green));
@@ -53,9 +53,9 @@ public class HomeRecyclerViewAdapter extends BaseQuickAdapter<HomeArticleBean.Da
             helper.setText(R.id.tv_tag, mContext.getString(R.string.questions_and_answers));
             helper.setTextColor(R.id.tv_tag, mContext.getResources().getColor(R.color.google_green));
             helper.setBackgroundRes(R.id.tv_tag, R.drawable.shape_green);
-        } else if (item.getSuperChapterName().contains(mContext.getString(R.string.wechat))) {
+        } else if (item.getSuperChapterName().contains(mContext.getString(R.string.official_accounts))) {
             helper.getView(R.id.tv_tag).setVisibility(View.VISIBLE);
-            helper.setText(R.id.tv_tag, mContext.getString(R.string.wechat));
+            helper.setText(R.id.tv_tag, mContext.getString(R.string.official_accounts));
             helper.setTextColor(R.id.tv_tag, mContext.getResources().getColor(R.color.google_green));
             helper.setBackgroundRes(R.id.tv_tag, R.drawable.shape_green);
         }

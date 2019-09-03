@@ -37,7 +37,7 @@ public class CollectRecyclerViewAdapter extends BaseQuickAdapter<CollectBean.Dat
         helper.addOnClickListener(R.id.image_collect);
     }
 }
-//public class CollectRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SwipedListener {
+//public class CollectRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 //
 //    private Context context;
 //    private List<CollectBean.DatasBean> mItems;
@@ -158,20 +158,6 @@ public class CollectRecyclerViewAdapter extends BaseQuickAdapter<CollectBean.Dat
 //    @Override
 //    public int getItemCount() {
 //        return mItems.size();
-//    }
-//
-//    @Override
-//    public void onItemDismiss(final int position) {
-//        CollectBean.DatasBean removeData = mItems.get(position);
-//        mItems.remove(position);
-//        notifyItemRangeRemoved(position, 1);
-//        Snackbar.make(parentView, context.getString(R.string.cancel_collect_success), Snackbar.LENGTH_SHORT)
-//                .setAction(context.getString(R.string.undo), new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        addItem(position, removeData);
-//                    }
-//                }).show();
 //    }
 //
 //    class RecyclerViewHolder extends RecyclerView.ViewHolder {

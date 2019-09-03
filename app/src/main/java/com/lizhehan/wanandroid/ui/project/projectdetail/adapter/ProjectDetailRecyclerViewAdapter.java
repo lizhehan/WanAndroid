@@ -58,6 +58,7 @@ public class ProjectDetailRecyclerViewAdapter extends BaseQuickAdapter<ProjectDe
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         helper.getView(R.id.progress_bar_loading).setVisibility(View.INVISIBLE);
+                        helper.getView(R.id.tv_image_failed_to_load).setVisibility(View.INVISIBLE);
                         return false;
                     }
                 })

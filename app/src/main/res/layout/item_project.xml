@@ -46,7 +46,7 @@
             android:layout_below="@id/tv_content"
             android:layout_marginEnd="96dp"
             android:layout_marginTop="16dp"
-            android:background="#EEEEEE" />
+            android:background="@color/main_background" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,7 +80,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="96dp"
             android:layout_alignParentEnd="true"
-            android:background="#EEEEEE" />
+            android:background="@color/main_background" />
 
         <ImageView
             android:id="@+id/image_simple"

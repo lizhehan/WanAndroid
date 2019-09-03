@@ -9,7 +9,7 @@
         android:layout_weight="1"
         android:layout_gravity="center"
         android:layout_marginStart="12dp"
-        android:background="#EEEEEE"/>
+        android:background="@color/main_background"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,6 +24,6 @@
         android:layout_weight="1"
         android:layout_gravity="center"
         android:layout_marginEnd="12dp"
-        android:background="#EEEEEE"/>
+        android:background="@color/main_background"/>
 
 </LinearLayout>

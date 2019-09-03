@@ -35,6 +35,7 @@ public class WxArticleDetailFragment extends BaseFragment implements WxArticleDe
     private List<WxArticleDetailBean.DatasBean> datasBeanList;
     private WxArticleDetailRecyclerViewAdapter mAdapter;
     private WxArticleDetailPresenter presenter;
+    private int id = -1;
     private boolean loading;
     private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -46,10 +47,6 @@ public class WxArticleDetailFragment extends BaseFragment implements WxArticleDe
             }
         }
     };
-    /**
-     * id 编号
-     */
-    private int id = -1;
 
     public static WxArticleDetailFragment getInstance(int id) {
         WxArticleDetailFragment fragment = new WxArticleDetailFragment();

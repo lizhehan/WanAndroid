@@ -70,12 +70,6 @@ public class CollectActivity extends BaseResultActivity implements CollectContra
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         collectRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        collectToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
     }
 
     @Override
@@ -88,9 +82,6 @@ public class CollectActivity extends BaseResultActivity implements CollectContra
         mAdapter.setOnItemClickListener(this);
         mAdapter.setOnItemChildClickListener(this);
         collectRecyclerView.setAdapter(mAdapter);
-//        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(adapter);
-//        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
-//        mItemTouchHelper.attachToRecyclerView(collectRecyclerView);
         collectPresenter.getCollectionList(0);
     }
 
