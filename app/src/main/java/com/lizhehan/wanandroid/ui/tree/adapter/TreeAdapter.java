@@ -24,8 +24,14 @@ public class TreeAdapter extends BaseQuickAdapter<TreeBean, BaseViewHolder> {
     protected void convert(BaseViewHolder helper, TreeBean item) {
         helper.setText(R.id.tv_knowledge_title, item.getName());
         StringBuilder sb = new StringBuilder();
-        for (TreeBean.ChildrenBean childrenBean : item.getChildren()) {
-            sb.append(childrenBean.getName()).append("    ");
+//        for (TreeBean.ChildrenBean childrenBean : item.getChildren()) {
+//            sb.append(childrenBean.getName()).append("    ");
+//        }
+        for (int i = 0; i < item.getChildren().size(); i++) {
+            sb.append(item.getChildren().get(i).getName());
+            if (i < item.getChildren().size() - 1) {
+                sb.append("、");
+            }
         }
         helper.setText(R.id.tv_knowledge_content, sb.toString());
     }

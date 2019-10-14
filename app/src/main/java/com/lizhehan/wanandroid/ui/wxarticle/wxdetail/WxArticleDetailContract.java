@@ -2,13 +2,13 @@ package com.lizhehan.wanandroid.ui.wxarticle.wxdetail;
 
 import com.lizhehan.wanandroid.base.BasePre;
 import com.lizhehan.wanandroid.base.BaseView;
-import com.lizhehan.wanandroid.data.bean.WxArticleDetailBean;
+import com.lizhehan.wanandroid.data.bean.ArticleBean;
 
 public class WxArticleDetailContract {
 
     interface View extends BaseView {
 
-        void getWxArticleDetailOk(WxArticleDetailBean bean, boolean hasRefresh);
+        void getWxArticleDetailOk(ArticleBean articleBean, boolean hasRefresh);
 
         void getWxArticleDetailErr(String err);
     }

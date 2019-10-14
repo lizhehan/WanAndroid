@@ -2,8 +2,8 @@ package com.lizhehan.wanandroid.ui.home;
 
 import com.lizhehan.wanandroid.base.BasePresenter;
 import com.lizhehan.wanandroid.data.BaseResponse;
+import com.lizhehan.wanandroid.data.bean.ArticleBean;
 import com.lizhehan.wanandroid.data.bean.BannerBean;
-import com.lizhehan.wanandroid.data.bean.HomeArticleBean;
 import com.lizhehan.wanandroid.data.bean.UserBean;
 import com.lizhehan.wanandroid.model.ApiService;
 import com.lizhehan.wanandroid.model.ApiStore;
@@ -104,7 +104,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                 .getArticleList(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseResponse<HomeArticleBean>>() {
+                .subscribe(new Observer<BaseResponse<ArticleBean>>() {
                     @Override
                     public void onError(Throwable e) {
                         view.getHomeErr(e.getMessage());
@@ -121,7 +121,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                     }
 
                     @Override
-                    public void onNext(BaseResponse<HomeArticleBean> homeArticleBaseResponse) {
+                    public void onNext(BaseResponse<ArticleBean> homeArticleBaseResponse) {
                         if (homeArticleBaseResponse.getErrorCode() == ConstantUtil.REQUEST_ERROR) {
                             view.getHomeErr(homeArticleBaseResponse.getErrorMsg());
                         } else if (homeArticleBaseResponse.getErrorCode() == ConstantUtil.REQUEST_SUCCESS) {

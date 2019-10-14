@@ -2,7 +2,7 @@ package com.lizhehan.wanandroid.ui.project.projectdetail;
 
 import com.lizhehan.wanandroid.base.BasePresenter;
 import com.lizhehan.wanandroid.data.BaseResponse;
-import com.lizhehan.wanandroid.data.bean.ProjectDetailBean;
+import com.lizhehan.wanandroid.data.bean.ArticleBean;
 import com.lizhehan.wanandroid.model.ApiService;
 import com.lizhehan.wanandroid.model.ApiStore;
 import com.lizhehan.wanandroid.util.ConstantUtil;
@@ -44,7 +44,7 @@ public class ProjectDetailPresenter extends BasePresenter<ProjectDetailContract.
                 .getDemoDetailList(page, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseResponse<ProjectDetailBean>>() {
+                .subscribe(new Observer<BaseResponse<ArticleBean>>() {
                     @Override
                     public void onError(Throwable e) {
                         view.getProjectDetailErr(e.getMessage());
@@ -60,7 +60,7 @@ public class ProjectDetailPresenter extends BasePresenter<ProjectDetailContract.
                     }
 
                     @Override
-                    public void onNext(BaseResponse<ProjectDetailBean> projectDetailBaseResponse) {
+                    public void onNext(BaseResponse<ArticleBean> projectDetailBaseResponse) {
                         if (projectDetailBaseResponse.getErrorCode() == ConstantUtil.REQUEST_ERROR) {
                             view.getProjectDetailErr(projectDetailBaseResponse.getErrorMsg());
                         } else if (projectDetailBaseResponse.getErrorCode() == ConstantUtil.REQUEST_SUCCESS) {

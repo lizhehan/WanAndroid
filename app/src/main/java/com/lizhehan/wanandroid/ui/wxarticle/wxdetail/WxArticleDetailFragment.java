@@ -10,7 +10,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lizhehan.wanandroid.R;
 import com.lizhehan.wanandroid.base.BaseFragment;
-import com.lizhehan.wanandroid.data.bean.WxArticleDetailBean;
+import com.lizhehan.wanandroid.data.bean.ArticleBean;
 import com.lizhehan.wanandroid.ui.webview.WebViewActivity;
 import com.lizhehan.wanandroid.ui.wxarticle.wxdetail.adapter.WxArticleDetailRecyclerViewAdapter;
 import com.lizhehan.wanandroid.util.ConstantUtil;
@@ -32,7 +32,7 @@ public class WxArticleDetailFragment extends BaseFragment implements WxArticleDe
     RecyclerView rv;
     @BindView(R.id.normal_view)
     SwipeRefreshLayout swipeRefreshLayout;
-    private List<WxArticleDetailBean.DatasBean> datasBeanList;
+    private List<ArticleBean.DatasBean> datasBeanList;
     private WxArticleDetailRecyclerViewAdapter mAdapter;
     private WxArticleDetailPresenter presenter;
     private int id = -1;
@@ -104,7 +104,7 @@ public class WxArticleDetailFragment extends BaseFragment implements WxArticleDe
     }
 
     @Override
-    public void getWxArticleDetailOk(WxArticleDetailBean beans, boolean hasRefresh) {
+    public void getWxArticleDetailOk(ArticleBean articleBean, boolean hasRefresh) {
         if (swipeRefreshLayout != null) {
             if (swipeRefreshLayout.isRefreshing()) {
                 swipeRefreshLayout.setRefreshing(false);
@@ -115,12 +115,12 @@ public class WxArticleDetailFragment extends BaseFragment implements WxArticleDe
         }
         if (hasRefresh) {
             datasBeanList.clear();
-            datasBeanList.addAll(beans.getDatas());
-            mAdapter.replaceData(beans.getDatas());
+            datasBeanList.addAll(articleBean.getDatas());
+            mAdapter.replaceData(articleBean.getDatas());
         } else {
-            if (beans.getDatas().size() > 0) {
-                datasBeanList.addAll(beans.getDatas());
-                mAdapter.addData(beans.getDatas());
+            if (articleBean.getDatas().size() > 0) {
+                datasBeanList.addAll(articleBean.getDatas());
+                mAdapter.addData(articleBean.getDatas());
             } else {
                 loading = true;
             }
@@ -154,7 +154,7 @@ public class WxArticleDetailFragment extends BaseFragment implements WxArticleDe
      */
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        WxArticleDetailBean.DatasBean bean = mAdapter.getData().get(position);
+        ArticleBean.DatasBean bean = mAdapter.getData().get(position);
         Bundle bundle = new Bundle();
         bundle.putInt(ConstantUtil.DETAIL_ID, bean.getId());
         bundle.putString(ConstantUtil.DETAIL_PATH, bean.getLink());

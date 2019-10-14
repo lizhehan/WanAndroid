@@ -2,7 +2,7 @@ package com.lizhehan.wanandroid.ui.wxarticle.wxdetail;
 
 import com.lizhehan.wanandroid.base.BasePresenter;
 import com.lizhehan.wanandroid.data.BaseResponse;
-import com.lizhehan.wanandroid.data.bean.WxArticleDetailBean;
+import com.lizhehan.wanandroid.data.bean.ArticleBean;
 import com.lizhehan.wanandroid.model.ApiService;
 import com.lizhehan.wanandroid.model.ApiStore;
 import com.lizhehan.wanandroid.util.ConstantUtil;
@@ -53,7 +53,7 @@ public class WxArticleDetailPresenter extends BasePresenter<WxArticleDetailContr
                 .getWXDetailList(page, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseResponse<WxArticleDetailBean>>() {
+                .subscribe(new Observer<BaseResponse<ArticleBean>>() {
                     @Override
                     public void onError(Throwable e) {
                         view.getWxArticleDetailErr(e.getMessage());
@@ -68,7 +68,7 @@ public class WxArticleDetailPresenter extends BasePresenter<WxArticleDetailContr
                     }
 
                     @Override
-                    public void onNext(BaseResponse<WxArticleDetailBean> wxArticleDetailBaseResponse) {
+                    public void onNext(BaseResponse<ArticleBean> wxArticleDetailBaseResponse) {
                         if (wxArticleDetailBaseResponse.getErrorCode() == ConstantUtil.REQUEST_ERROR) {
                             view.getWxArticleDetailErr(wxArticleDetailBaseResponse.getErrorMsg());
                         } else if (wxArticleDetailBaseResponse.getErrorCode() == ConstantUtil.REQUEST_SUCCESS) {

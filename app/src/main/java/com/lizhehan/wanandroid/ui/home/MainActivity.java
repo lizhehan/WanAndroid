@@ -32,6 +32,7 @@ import com.lizhehan.wanandroid.data.bean.UserBean;
 import com.lizhehan.wanandroid.ui.about.AboutActivity;
 import com.lizhehan.wanandroid.ui.collect.CollectActivity;
 import com.lizhehan.wanandroid.ui.project.ProjectFragment;
+import com.lizhehan.wanandroid.ui.search.SearchActivity;
 import com.lizhehan.wanandroid.ui.tree.TreeFragment;
 import com.lizhehan.wanandroid.ui.user.UserActivity;
 import com.lizhehan.wanandroid.ui.user.UserContract;
@@ -296,6 +297,7 @@ public class MainActivity extends BaseActivity implements UserContract.View {
         switch (item.getItemId()) {
             case R.id.main_menu_search:
                 Toast.makeText(context, "开发中...", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(activity, SearchActivity.class));
                 break;
             case R.id.main_menu_user:
                 BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog(activity);

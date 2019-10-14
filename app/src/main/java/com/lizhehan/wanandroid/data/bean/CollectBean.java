@@ -1,5 +1,8 @@
 package com.lizhehan.wanandroid.data.bean;
 
+import android.text.Html;
+import android.text.TextUtils;
+
 import java.util.List;
 
 public class CollectBean {
@@ -116,7 +119,11 @@ public class CollectBean {
         private int zan;
 
         public String getAuthor() {
-            return author;
+            if (!TextUtils.isEmpty(author)) {
+                return author;
+            } else {
+                return "分享人";
+            }
         }
 
         public void setAuthor(String author) {
@@ -212,7 +219,7 @@ public class CollectBean {
         }
 
         public String getTitle() {
-            return title;
+            return Html.fromHtml(title).toString();
         }
 
         public void setTitle(String title) {

@@ -7,7 +7,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.lizhehan.wanandroid.R;
-import com.lizhehan.wanandroid.data.bean.WxArticleDetailBean;
+import com.lizhehan.wanandroid.data.bean.ArticleBean;
 
 import java.util.List;
 
@@ -15,14 +15,14 @@ import java.util.List;
  * 微信公众号文章 adapter
  */
 
-public class WxArticleDetailRecyclerViewAdapter extends BaseQuickAdapter<WxArticleDetailBean.DatasBean, BaseViewHolder> {
+public class WxArticleDetailRecyclerViewAdapter extends BaseQuickAdapter<ArticleBean.DatasBean, BaseViewHolder> {
 
-    public WxArticleDetailRecyclerViewAdapter(int layoutResId, @Nullable List<WxArticleDetailBean.DatasBean> data) {
+    public WxArticleDetailRecyclerViewAdapter(int layoutResId, @Nullable List<ArticleBean.DatasBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, WxArticleDetailBean.DatasBean item) {
+    protected void convert(BaseViewHolder helper, ArticleBean.DatasBean item) {
         helper.getView(R.id.tv_tag).setVisibility(View.GONE);
         if (!TextUtils.isEmpty(item.getTitle())) {
             helper.setText(R.id.tv_content, item.getTitle());

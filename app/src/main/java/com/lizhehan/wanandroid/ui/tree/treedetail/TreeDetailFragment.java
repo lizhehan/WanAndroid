@@ -10,7 +10,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lizhehan.wanandroid.R;
 import com.lizhehan.wanandroid.base.BaseFragment;
-import com.lizhehan.wanandroid.data.bean.TreeDetailBean;
+import com.lizhehan.wanandroid.data.bean.ArticleBean;
 import com.lizhehan.wanandroid.ui.tree.treedetail.adapter.TreeDetailRecyclerViewAdapter;
 import com.lizhehan.wanandroid.ui.webview.WebViewActivity;
 import com.lizhehan.wanandroid.util.ConstantUtil;
@@ -33,7 +33,7 @@ public class TreeDetailFragment extends BaseFragment implements TreeDetailContra
 
     private int id;
     private TreeDetailPresenter presenter;
-    private List<TreeDetailBean.DatasBean> datasBeanList;
+    private List<ArticleBean.DatasBean> datasBeanList;
     private TreeDetailRecyclerViewAdapter mAdapter;
     private boolean loading;
     private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
@@ -94,7 +94,7 @@ public class TreeDetailFragment extends BaseFragment implements TreeDetailContra
     }
 
     @Override
-    public void getTreeDetailResultOK(TreeDetailBean treeDetailBean, boolean isRefresh) {
+    public void getTreeDetailResultOK(ArticleBean articleBean, boolean isRefresh) {
         if (swipeRefreshLayout != null) {
             if (swipeRefreshLayout.isRefreshing()) {
                 swipeRefreshLayout.setRefreshing(false);
@@ -102,12 +102,12 @@ public class TreeDetailFragment extends BaseFragment implements TreeDetailContra
         }
         showNormal();
         if (isRefresh) {
-            datasBeanList = treeDetailBean.getDatas();
-            mAdapter.replaceData(treeDetailBean.getDatas());
+            datasBeanList = articleBean.getDatas();
+            mAdapter.replaceData(articleBean.getDatas());
         } else {
-            if (treeDetailBean.getDatas().size() > 0) {
-                datasBeanList.addAll(treeDetailBean.getDatas());
-                mAdapter.addData(treeDetailBean.getDatas());
+            if (articleBean.getDatas().size() > 0) {
+                datasBeanList.addAll(articleBean.getDatas());
+                mAdapter.addData(articleBean.getDatas());
             } else {
                 loading = true;
             }
@@ -133,7 +133,7 @@ public class TreeDetailFragment extends BaseFragment implements TreeDetailContra
      */
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        TreeDetailBean.DatasBean bean = mAdapter.getData().get(position);
+        ArticleBean.DatasBean bean = mAdapter.getData().get(position);
         Bundle bundle = new Bundle();
         bundle.putInt(ConstantUtil.DETAIL_ID, bean.getId());
         bundle.putString(ConstantUtil.DETAIL_PATH, bean.getLink());

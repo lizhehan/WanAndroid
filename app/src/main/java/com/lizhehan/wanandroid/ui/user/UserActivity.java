@@ -78,13 +78,13 @@ public class UserActivity extends BaseActivity implements UserContract.View {
 
     }
 
-    @Override
-    protected void initToolbar() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getString(R.string.sign_in));
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white);
-        }
-    }
+//    @Override
+//    protected void initToolbar() {
+//        if (getSupportActionBar() != null) {
+//            getSupportActionBar().setTitle(getString(R.string.sign_in));
+//            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white);
+//        }
+//    }
 
     @OnClick({R.id.btn_login, R.id.btn_forgot_register, R.id.btn_register, R.id.btn_forgot_login})
     void click(View view) {
@@ -93,9 +93,9 @@ public class UserActivity extends BaseActivity implements UserContract.View {
                 attemptLogin();
                 break;
             case R.id.btn_forgot_register:
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(getString(R.string.register));
-                }
+//                if (getSupportActionBar() != null) {
+//                    getSupportActionBar().setTitle(getString(R.string.register));
+//                }
                 Animation animation_out_to_left = AnimationUtils.loadAnimation(activity, R.anim.out_to_left);
                 Animation animation_in_from_right = AnimationUtils.loadAnimation(activity, R.anim.in_from_right);
                 mLoginFormView.startAnimation(animation_out_to_left);
@@ -107,9 +107,9 @@ public class UserActivity extends BaseActivity implements UserContract.View {
                 attemptRegister();
                 break;
             case R.id.btn_forgot_login:
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(getString(R.string.title_activity_login));
-                }
+//                if (getSupportActionBar() != null) {
+//                    getSupportActionBar().setTitle(getString(R.string.title_activity_login));
+//                }
                 Animation animation_out_to_right = AnimationUtils.loadAnimation(activity, R.anim.out_to_right);
                 Animation animation_in_from_left = AnimationUtils.loadAnimation(activity, R.anim.in_from_left);
                 mRegisterFormView.startAnimation(animation_out_to_right);

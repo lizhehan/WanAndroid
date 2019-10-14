@@ -2,8 +2,8 @@ package com.lizhehan.wanandroid.ui.home;
 
 import com.lizhehan.wanandroid.base.BasePre;
 import com.lizhehan.wanandroid.base.BaseView;
+import com.lizhehan.wanandroid.data.bean.ArticleBean;
 import com.lizhehan.wanandroid.data.bean.BannerBean;
-import com.lizhehan.wanandroid.data.bean.HomeArticleBean;
 import com.lizhehan.wanandroid.data.bean.UserBean;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class HomeContract {
 
     public interface View extends BaseView {
 
-        void getHomeOk(HomeArticleBean dataBean, boolean isRefresh);
+        void getHomeOk(ArticleBean articleBean, boolean isRefresh);
 
         void getHomeErr(String info);
 

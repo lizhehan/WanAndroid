@@ -41,9 +41,11 @@
     <string name="login_user_name_hint">用户名</string>
     <string name="login_user_name_password">密码</string>
     <string name="register_user_name_repassword">确认密码</string>
-    <string name="sign_in">登录</string>
+    <string name="login">登录</string>
     <string name="register">注册</string>
-    <string name="return_sign_in">返回登录</string>
+    <string name="login_tips">请使用您的 WanAndroid 帐号</string>
+    <string name="register_tips">请输入您的用户名和密码</string>
+    <string name="return_login">返回登录</string>
     <string name="to_register">创建帐号</string>
     <string name="error_invalid_name">至少6位字符</string>
     <string name="error_invalid_password">至少6位字符</string>

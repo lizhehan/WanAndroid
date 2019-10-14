@@ -2,7 +2,7 @@ package com.lizhehan.wanandroid.ui.tree.treedetail;
 
 import com.lizhehan.wanandroid.base.BasePresenter;
 import com.lizhehan.wanandroid.data.BaseResponse;
-import com.lizhehan.wanandroid.data.bean.TreeDetailBean;
+import com.lizhehan.wanandroid.data.bean.ArticleBean;
 import com.lizhehan.wanandroid.model.ApiService;
 import com.lizhehan.wanandroid.model.ApiStore;
 import com.lizhehan.wanandroid.util.ConstantUtil;
@@ -55,7 +55,7 @@ public class TreeDetailPresenter extends BasePresenter<TreeDetailContract.View>
                 .getSystemDetailList(page, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseResponse<TreeDetailBean>>() {
+                .subscribe(new Observer<BaseResponse<ArticleBean>>() {
                     @Override
                     public void onError(Throwable e) {
                         view.getTreeDetailResultErr(e.getMessage());
@@ -72,7 +72,7 @@ public class TreeDetailPresenter extends BasePresenter<TreeDetailContract.View>
                     }
 
                     @Override
-                    public void onNext(BaseResponse<TreeDetailBean> treeDetailBeanBaseResponse) {
+                    public void onNext(BaseResponse<ArticleBean> treeDetailBeanBaseResponse) {
                         if (treeDetailBeanBaseResponse.getErrorCode() == ConstantUtil.REQUEST_ERROR) {
                             view.getTreeDetailResultErr(treeDetailBeanBaseResponse.getErrorMsg());
                         } else if (treeDetailBeanBaseResponse.getErrorCode() == ConstantUtil.REQUEST_SUCCESS) {

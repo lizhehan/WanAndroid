@@ -15,6 +15,25 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="@string/login"
+            android:textColor="@color/black"
+            android:textSize="28sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/login_tips"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+
         <android.support.design.widget.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/input_login_user_name"
@@ -45,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/login_user_name_password"
-                android:imeActionLabel="@string/sign_in"
+                android:imeActionLabel="@string/login"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:maxLength="20"
@@ -60,7 +79,7 @@
             android:gravity="center"
             android:layout_marginTop="16dp"
             android:padding="12dp"
-            android:text="@string/sign_in"
+            android:text="@string/login"
             android:textAppearance="?android:attr/textAppearanceButton"
             android:textColor="@color/white"
             android:textSize="16sp"

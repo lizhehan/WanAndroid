@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lizhehan.wanandroid.R;
 import com.lizhehan.wanandroid.base.BaseFragment;
+import com.lizhehan.wanandroid.data.bean.ArticleBean;
 import com.lizhehan.wanandroid.data.bean.BannerBean;
-import com.lizhehan.wanandroid.data.bean.HomeArticleBean;
 import com.lizhehan.wanandroid.data.bean.UserBean;
 import com.lizhehan.wanandroid.ui.home.adapter.HomeRecyclerViewAdapter;
 import com.lizhehan.wanandroid.ui.webview.WebViewActivity;
@@ -41,7 +41,7 @@ public class HomeFragment extends BaseFragment implements HomeRecyclerViewAdapte
     @BindView(R.id.normal_view)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    private List<HomeArticleBean.DatasBean> articleList;
+    private List<ArticleBean.DatasBean> articleList;
     private List<String> linkList;
     private List<String> imageList;
     private List<String> titleList;
@@ -131,7 +131,7 @@ public class HomeFragment extends BaseFragment implements HomeRecyclerViewAdapte
      */
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        HomeArticleBean.DatasBean bean = mAdapter.getData().get(position);
+        ArticleBean.DatasBean bean = mAdapter.getData().get(position);
         Bundle bundle = new Bundle();
         bundle.putInt(ConstantUtil.DETAIL_ID, bean.getId());
         bundle.putString(ConstantUtil.DETAIL_PATH, bean.getLink());
@@ -144,7 +144,7 @@ public class HomeFragment extends BaseFragment implements HomeRecyclerViewAdapte
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 //        if (view.getId() == R.id.image_collect) {
-//            HomeArticleBean.DatasBean bean = mAdapter.getData().get(position);
+//            ArticleBean.DatasBean bean = mAdapter.getData().get(position);
 //            if (bean.isCollect()) {
 //                collectPresenter.cancelCollectArticle(bean.getId());
 //                bean.setCollect(false);
@@ -158,7 +158,7 @@ public class HomeFragment extends BaseFragment implements HomeRecyclerViewAdapte
     }
 
     @Override
-    public void getHomeOk(HomeArticleBean dataBean, boolean isRefresh) {
+    public void getHomeOk(ArticleBean articleBean, boolean isRefresh) {
         if (swipeRefreshLayout != null) {
             if (swipeRefreshLayout.isRefreshing()) {
                 swipeRefreshLayout.setRefreshing(false);
@@ -167,11 +167,11 @@ public class HomeFragment extends BaseFragment implements HomeRecyclerViewAdapte
         showNormal();
         // 是 刷新adapter 则 添加数据到adapter
         if (isRefresh) {
-            articleList = dataBean.getDatas();
+            articleList = articleBean.getDatas();
             mAdapter.replaceData(articleList);
         } else {
-            articleList.addAll(dataBean.getDatas());
-            mAdapter.addData(dataBean.getDatas());
+            articleList.addAll(articleBean.getDatas());
+            mAdapter.addData(articleBean.getDatas());
         }
     }
 

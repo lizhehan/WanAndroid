@@ -2,7 +2,7 @@ package com.lizhehan.wanandroid.ui.project.projectdetail;
 
 import com.lizhehan.wanandroid.base.BasePre;
 import com.lizhehan.wanandroid.base.BaseView;
-import com.lizhehan.wanandroid.data.bean.ProjectDetailBean;
+import com.lizhehan.wanandroid.data.bean.ArticleBean;
 
 public class ProjectDetailContract {
 
@@ -11,10 +11,10 @@ public class ProjectDetailContract {
         /**
          * 获取 项目列表成功
          *
-         * @param beans
+         * @param articleBean
          * @param isRefresh
          */
-        void getProjectDetailOK(ProjectDetailBean beans, boolean isRefresh);
+        void getProjectDetailOK(ArticleBean articleBean, boolean isRefresh);
 
         /**
          * 获取 项目失败

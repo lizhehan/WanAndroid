@@ -15,14 +15,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiStore {
 
-    private static ApiStore uniqueInstance;
+    private volatile static ApiStore uniqueInstance;
 
     private ApiStore() {
     }
 
     public static ApiStore getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new ApiStore();
+            synchronized (ApiStore.class) {
+                if (uniqueInstance == null) {
+                    uniqueInstance = new ApiStore();
+                }
+            }
         }
         return uniqueInstance;
     }

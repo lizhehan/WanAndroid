@@ -3,16 +3,13 @@ package com.lizhehan.wanandroid.model;
 import com.lizhehan.wanandroid.data.BaseResponse;
 import com.lizhehan.wanandroid.data.bean.BannerBean;
 import com.lizhehan.wanandroid.data.bean.CollectBean;
-import com.lizhehan.wanandroid.data.bean.HomeArticleBean;
+import com.lizhehan.wanandroid.data.bean.ArticleBean;
 import com.lizhehan.wanandroid.data.bean.HotBean;
 import com.lizhehan.wanandroid.data.bean.HotKeyBean;
 import com.lizhehan.wanandroid.data.bean.ProjectBean;
-import com.lizhehan.wanandroid.data.bean.ProjectDetailBean;
 import com.lizhehan.wanandroid.data.bean.TreeBean;
-import com.lizhehan.wanandroid.data.bean.TreeDetailBean;
 import com.lizhehan.wanandroid.data.bean.UserBean;
 import com.lizhehan.wanandroid.data.bean.WxArticleBean;
-import com.lizhehan.wanandroid.data.bean.WxArticleDetailBean;
 
 import java.util.List;
 
@@ -33,7 +30,7 @@ public interface ApiService {
      * 主页
      */
     @GET("article/list/{page}/json")
-    Observable<BaseResponse<HomeArticleBean>> getArticleList(@Path("page") int num);
+    Observable<BaseResponse<ArticleBean>> getArticleList(@Path("page") int num);
 
     /**
      * 登录
@@ -87,7 +84,7 @@ public interface ApiService {
      * 单个知识体系列表
      */
     @GET("article/list/{page}/json")
-    Observable<BaseResponse<TreeDetailBean>> getSystemDetailList(@Path("page") int page, @Query("cid") int id);
+    Observable<BaseResponse<ArticleBean>> getSystemDetailList(@Path("page") int page, @Query("cid") int id);
 
     /**
      * 获取项目 列表
@@ -99,7 +96,7 @@ public interface ApiService {
      * 获取 项目详细信息列表数据
      */
     @GET("project/list/{page}/json")
-    Observable<BaseResponse<ProjectDetailBean>> getDemoDetailList(@Path("page") int page, @Query("cid") int id);
+    Observable<BaseResponse<ArticleBean>> getDemoDetailList(@Path("page") int page, @Query("cid") int id);
 
     /**
      * 获取 我的收藏列表
@@ -119,7 +116,7 @@ public interface ApiService {
      * @return
      */
     @GET("/hotkey/json")
-    Observable<BaseResponse<List<HotKeyBean>>> getHitKeyBean();
+    Observable<BaseResponse<List<HotKeyBean>>> getHotKeyBean();
 
 
     /**
@@ -130,7 +127,7 @@ public interface ApiService {
      * @return
      */
     @POST("/article/query/{page}/json")
-    Observable<BaseResponse<HomeArticleBean>> getSearechResult(@Path("page") int page, @Query("k") String key);
+    Observable<BaseResponse<ArticleBean>> getSearechResult(@Path("page") int page, @Query("k") String key);
 
     /**
      * 获取 微信公众号列表
@@ -144,5 +141,5 @@ public interface ApiService {
      * 获取 微信公众号详细信息列表数据
      */
     @GET("wxarticle/list/{id}/{page}/json")
-    Observable<BaseResponse<WxArticleDetailBean>> getWXDetailList(@Path("page") int page, @Path("id") int id);
+    Observable<BaseResponse<ArticleBean>> getWXDetailList(@Path("page") int page, @Path("id") int id);
 }

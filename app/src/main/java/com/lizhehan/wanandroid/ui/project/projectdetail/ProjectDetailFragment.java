@@ -10,7 +10,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lizhehan.wanandroid.R;
 import com.lizhehan.wanandroid.base.BaseFragment;
-import com.lizhehan.wanandroid.data.bean.ProjectDetailBean;
+import com.lizhehan.wanandroid.data.bean.ArticleBean;
 import com.lizhehan.wanandroid.ui.project.projectdetail.adapter.ProjectDetailRecyclerViewAdapter;
 import com.lizhehan.wanandroid.ui.webview.WebViewActivity;
 import com.lizhehan.wanandroid.util.ConstantUtil;
@@ -35,7 +35,7 @@ public class ProjectDetailFragment extends BaseFragment implements ProjectDetail
 
     private ProjectDetailRecyclerViewAdapter mAdapter;
     private ProjectDetailPresenter presenter;
-    private List<ProjectDetailBean.DatasBean> demoDetailListBeans;
+    private List<ArticleBean.DatasBean> demoDetailListBeans;
     private boolean loading;
     private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -116,7 +116,7 @@ public class ProjectDetailFragment extends BaseFragment implements ProjectDetail
      * 刷新 重置，不刷新 添加
      */
     @Override
-    public void getProjectDetailOK(ProjectDetailBean beans, boolean isRefresh) {
+    public void getProjectDetailOK(ArticleBean articleBean, boolean isRefresh) {
         if (swipeRefreshLayout != null) {
             if (swipeRefreshLayout.isRefreshing()) {
                 swipeRefreshLayout.setRefreshing(false);
@@ -127,12 +127,12 @@ public class ProjectDetailFragment extends BaseFragment implements ProjectDetail
         }
         if (isRefresh) {
             demoDetailListBeans.clear();
-            demoDetailListBeans.addAll(beans.getDatas());
-            mAdapter.replaceData(beans.getDatas());
+            demoDetailListBeans.addAll(articleBean.getDatas());
+            mAdapter.replaceData(articleBean.getDatas());
         } else {
-            if (beans.getDatas().size() > 0) {
-                demoDetailListBeans.addAll(beans.getDatas());
-                mAdapter.addData(beans.getDatas());
+            if (articleBean.getDatas().size() > 0) {
+                demoDetailListBeans.addAll(articleBean.getDatas());
+                mAdapter.addData(articleBean.getDatas());
             } else {
                 loading = true;
             }
@@ -166,7 +166,7 @@ public class ProjectDetailFragment extends BaseFragment implements ProjectDetail
      */
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        ProjectDetailBean.DatasBean bean = mAdapter.getData().get(position);
+        ArticleBean.DatasBean bean = mAdapter.getData().get(position);
         Bundle bundle = new Bundle();
         bundle.putInt(ConstantUtil.DETAIL_ID, bean.getId());
         bundle.putString(ConstantUtil.DETAIL_PATH, bean.getLink());

@@ -15,7 +15,7 @@ import com.bumptech.glide.request.target.Target;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.lizhehan.wanandroid.R;
-import com.lizhehan.wanandroid.data.bean.ProjectDetailBean;
+import com.lizhehan.wanandroid.data.bean.ArticleBean;
 
 import java.util.List;
 
@@ -24,14 +24,14 @@ import java.util.List;
  * 项目 内容列表适配器
  */
 
-public class ProjectDetailRecyclerViewAdapter extends BaseQuickAdapter<ProjectDetailBean.DatasBean, BaseViewHolder> {
+public class ProjectDetailRecyclerViewAdapter extends BaseQuickAdapter<ArticleBean.DatasBean, BaseViewHolder> {
 
-    public ProjectDetailRecyclerViewAdapter(int layoutResId, @Nullable List<ProjectDetailBean.DatasBean> data) {
+    public ProjectDetailRecyclerViewAdapter(int layoutResId, @Nullable List<ArticleBean.DatasBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(@NonNull BaseViewHolder helper, ProjectDetailBean.DatasBean item) {
+    protected void convert(@NonNull BaseViewHolder helper, ArticleBean.DatasBean item) {
         if (!TextUtils.isEmpty(item.getTitle())) {
             helper.setText(R.id.tv_title, item.getTitle());
         }

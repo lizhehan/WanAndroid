@@ -8,7 +8,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.lizhehan.wanandroid.R;
-import com.lizhehan.wanandroid.data.bean.HomeArticleBean;
+import com.lizhehan.wanandroid.data.bean.ArticleBean;
 
 import java.util.List;
 
@@ -16,14 +16,14 @@ import java.util.List;
  * rv 适配器
  */
 
-public class HomeRecyclerViewAdapter extends BaseQuickAdapter<HomeArticleBean.DatasBean, BaseViewHolder> {
+public class HomeRecyclerViewAdapter extends BaseQuickAdapter<ArticleBean.DatasBean, BaseViewHolder> {
 
-    public HomeRecyclerViewAdapter(int layoutResId, @Nullable List<HomeArticleBean.DatasBean> data) {
+    public HomeRecyclerViewAdapter(int layoutResId, @Nullable List<ArticleBean.DatasBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(@NonNull BaseViewHolder helper, HomeArticleBean.DatasBean item) {
+    protected void convert(@NonNull BaseViewHolder helper, ArticleBean.DatasBean item) {
         helper.getView(R.id.tv_tag).setVisibility(View.GONE);
         if (!TextUtils.isEmpty(item.getTitle())) {
             helper.setText(R.id.tv_content, item.getTitle());
@@ -35,7 +35,7 @@ public class HomeRecyclerViewAdapter extends BaseQuickAdapter<HomeArticleBean.Da
             helper.setText(R.id.tv_time, item.getNiceDate());
         }
         if (!TextUtils.isEmpty(item.getChapterName())) {
-            String classifyName = item.getSuperChapterName() + " / " + item.getChapterName();
+            String classifyName = item.getSuperChapterName() + "・" + item.getChapterName();
             helper.setText(R.id.tv_type, classifyName);
         }
         if (item.getSuperChapterName().contains(mContext.getString(R.string.open_source_project))) {
