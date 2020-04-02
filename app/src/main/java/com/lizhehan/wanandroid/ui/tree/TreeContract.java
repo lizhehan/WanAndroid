@@ -1,29 +1,20 @@
 package com.lizhehan.wanandroid.ui.tree;
 
-import com.lizhehan.wanandroid.base.BasePre;
-import com.lizhehan.wanandroid.base.BaseView;
-import com.lizhehan.wanandroid.data.bean.TreeBean;
+import com.lizhehan.wanandroid.base.BaseContract;
+import com.lizhehan.wanandroid.bean.Chapter;
 
 import java.util.List;
 
+public interface TreeContract {
+    interface View extends BaseContract.View {
+        void getTreeSuccess(List<Chapter> chapterList);
 
-/**
- * 接口契约类
- */
-
-public class TreeContract {
-
-    interface View extends BaseView {
-
-        void getTreeOk(List<TreeBean> dataBean);
-
-        void getTreeErr(String info);
+        void getTreeError(String errorMsg);
     }
 
-    interface Presenter extends BasePre<View> {
+    interface Presenter extends BaseContract.Presenter<View> {
+        void getTree();
 
         void refresh();
-
-        void getTree();
     }
 }

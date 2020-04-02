@@ -1,120 +1,88 @@
 package com.lizhehan.wanandroid.ui.tree;
 
-import android.content.Intent;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.lizhehan.wanandroid.Constants;
 import com.lizhehan.wanandroid.R;
+import com.lizhehan.wanandroid.adapter.TreeAdapter;
 import com.lizhehan.wanandroid.base.BaseFragment;
-import com.lizhehan.wanandroid.data.bean.TreeBean;
-import com.lizhehan.wanandroid.ui.tree.adapter.TreeAdapter;
-import com.lizhehan.wanandroid.ui.tree.treedetail.TreeDetailActivity;
-import com.lizhehan.wanandroid.util.ConstantUtil;
+import com.lizhehan.wanandroid.bean.Chapter;
+import com.lizhehan.wanandroid.databinding.FragmentTreeBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
+public class TreeFragment extends BaseFragment<TreePresenter> implements TreeContract.View {
 
-public class TreeFragment extends BaseFragment implements TreeContract.View, TreeAdapter.OnItemClickListener {
-    @BindView(R.id.rv)
-    RecyclerView rvTree;
-    @BindView(R.id.normal_view)
-    SwipeRefreshLayout swipeRefreshLayout;
-
-    private List<TreeBean> treeBeanList;
-    private TreePresenter presenter;
-    private TreeAdapter mAdapter;
-
-    public static TreeFragment getInstance() {
-        return new TreeFragment();
-    }
+    private FragmentTreeBinding binding;
+    private TreeAdapter treeAdapter;
+    private List<Chapter> chapterList;
 
     @Override
-    public int getLayoutResID() {
-        return R.layout.fragment_tree;
-    }
-
-    @Override
-    protected void initData() {
-        presenter = new TreePresenter(this);
-        treeBeanList = new ArrayList<>();
-        mAdapter = new TreeAdapter(R.layout.item_tree, treeBeanList);
-        presenter.getTree();
-        mAdapter.setOnItemClickListener(this);
-        rvTree.setAdapter(mAdapter);
+    protected View getViewBindingRoot(LayoutInflater inflater) {
+        binding = FragmentTreeBinding.inflate(inflater);
+        return binding.getRoot();
     }
 
     @Override
     protected void initView() {
-        super.initView();
-        showLoading();
-        setRefresh();
-        rvTree.setLayoutManager(new LinearLayoutManager(context));
-    }
-
-    @Override
-    public void getTreeOk(List<TreeBean> dataBean) {
-        if (swipeRefreshLayout != null) {
-            if (swipeRefreshLayout.isRefreshing()) {
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        }
-        treeBeanList = dataBean;
-        mAdapter.replaceData(dataBean);
-        showNormal();
-    }
-
-    @Override
-    public void getTreeErr(String info) {
-        if (swipeRefreshLayout != null) {
-            if (swipeRefreshLayout.isRefreshing()) {
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        }
-        showError(info);
-    }
-
-    /**
-     * SmartRefreshLayout刷新加载
-     */
-    private void setRefresh() {
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        binding.swipeRefreshLayout.setRefreshing(true);
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 presenter.refresh();
             }
         });
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
-    public void reload() {
-        showLoading();
+    protected void initData() {
+        presenter = new TreePresenter();
+        presenter.attachView(this);
         presenter.getTree();
+        chapterList = new ArrayList<>();
+        treeAdapter = new TreeAdapter(getContext(), chapterList);
+        treeAdapter.setOnItemClickListener(new TreeAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.CHAPTER, chapterList.get(position));
+                Navigation.findNavController(requireView()).navigate(R.id.treeActivity, bundle);
+            }
+        });
+        treeAdapter.setOnItemChildClickListener(new TreeAdapter.OnItemChildClickListener() {
+            @Override
+            public void onClick(int position, int childPosition) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.CHAPTER, chapterList.get(position));
+                bundle.putInt(Constants.CHAPTER_CHILD, childPosition);
+                Navigation.findNavController(requireView()).navigate(R.id.treeActivity, bundle);
+            }
+        });
+        binding.recyclerView.setAdapter(treeAdapter);
     }
 
-    /**
-     * 回到顶部
-     */
-    public void scrollToTop() {
-        rvTree.scrollToPosition(0);
-    }
-
-    /**
-     * item 点击事件
-     *
-     * @param adapter
-     * @param view
-     * @param position
-     */
     @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        Intent intent = new Intent(activity, TreeDetailActivity.class);
-        intent.putExtra(ConstantUtil.TREE, mAdapter.getData().get(position));
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
+    public void getTreeSuccess(List<Chapter> chapterList) {
+        binding.swipeRefreshLayout.setRefreshing(false);
+        this.chapterList.clear();
+        this.chapterList.addAll(chapterList);
+        treeAdapter.notifyItemRangeChanged(0, chapterList.size());
+    }
+
+    @Override
+    public void getTreeError(String errorMsg) {
+        binding.swipeRefreshLayout.setRefreshing(false);
+    }
+
+    public void scrollToTop() {
+        binding.recyclerView.scrollToPosition(0);
     }
 }

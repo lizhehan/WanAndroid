@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/treeFragment"
+        android:icon="@drawable/ic_tree_black_24dp"
+        android:title="@string/title_tree" />
+
+    <item
+        android:id="@+id/weChatFragment"
+        android:icon="@drawable/ic_wechat_black_24dp"
+        android:title="@string/title_wechat" />
+
+    <item
+        android:id="@+id/projectFragment"
+        android:icon="@drawable/ic_project_black_24dp"
+        android:title="@string/title_project" />
+
+    <item
+        android:id="@+id/userFragment"
+        android:icon="@drawable/ic_user_black_24dp"
+        android:title="@string/title_user" />
+
+</menu>

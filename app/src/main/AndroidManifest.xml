@@ -8,19 +8,26 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".application.MyApplication"
-        android:allowBackup="false"
+        android:name=".WanApplication"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
+        tools:ignore="AllowBackup,UnusedAttribute">
+        <activity android:name=".ui.user.about.AboutActivity" />
+        <activity android:name=".ui.user.coin.MyCoinActivity" />
+        <activity android:name=".ui.user.collect.MyCollectionActivity" />
+        <activity android:name=".ui.user.LoginActivity" />
+        <activity android:name=".ui.search.SearchActivity" />
+        <activity android:name=".ui.project.article.ProjectActivity" />
+        <activity android:name=".ui.web.WebActivity" />
+        <activity android:name=".ui.tree.article.TreeActivity" />
         <activity
-            android:name=".ui.home.MainActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,31 +35,8 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.user.UserActivity"
-            android:parentActivityName=".ui.home.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.collect.CollectActivity"
-            android:parentActivityName=".ui.home.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.webview.WebViewActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.tree.treedetail.TreeDetailActivity"
-            android:parentActivityName=".ui.home.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.search.SearchActivity"
-            android:parentActivityName=".ui.home.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.about.AboutActivity"
-            android:label="@string/dialog_bottom_sheet_about"
-            android:parentActivityName=".ui.home.MainActivity" />
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="com.lizhehan.wanandroid.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -61,4 +45,5 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
+
 </manifest>

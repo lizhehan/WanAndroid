@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:summary="@string/wanandroid_summary"
+        app:title="@string/wanandroid_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://www.wanandroid.com" />
+    </Preference>
+
+    <Preference
+        app:summary="@string/api_summary"
+        app:title="@string/api_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://www.wanandroid.com/blog/show/2" />
+    </Preference>
+
+    <Preference
+        app:summary="@string/feedback_summary"
+        app:title="@string/feedback_title">
+        <intent
+            android:action="android.intent.action.SENDTO"
+            android:data="mailto:zhehan.li97@gmail.com?subject=Feedback: WanAndroid" />
+    </Preference>
+
+    <Preference
+        app:summary="@string/github_summary"
+        app:title="@string/github_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://github.com/lizhehan/WanAndroid" />
+    </Preference>
+
+    <Preference
+        app:key="version"
+        app:title="@string/version_title" />
+
+    <Preference
+        app:key="share"
+        app:title="@string/share_title" />
+
+</PreferenceScreen>

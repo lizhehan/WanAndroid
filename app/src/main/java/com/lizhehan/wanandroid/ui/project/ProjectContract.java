@@ -1,24 +1,29 @@
 package com.lizhehan.wanandroid.ui.project;
 
-import com.lizhehan.wanandroid.base.BasePre;
-import com.lizhehan.wanandroid.base.BaseView;
-import com.lizhehan.wanandroid.data.bean.ProjectBean;
+import com.lizhehan.wanandroid.base.BaseContract;
+import com.lizhehan.wanandroid.bean.Article;
+import com.lizhehan.wanandroid.bean.Chapter;
 
 import java.util.List;
 
-public class ProjectContract {
+public interface ProjectContract {
+    interface View extends BaseContract.View {
+        void getLatestProjectArticleListSuccess(List<Article> articleList, boolean isRefresh, boolean isLastPage);
 
-    public interface View extends BaseView {
+        void getLatestProjectArticleListError(String errorMsg);
 
-        void getProjectResultOK(List<ProjectBean> demoBeans);
+        void getProjectChaptersSuccess(List<Chapter> chapterList);
 
-        void getProjectResultErr(String info);
+        void getProjectChaptersError(String errorMsg);
     }
 
-    public interface Presenter extends BasePre<View> {
+    interface Presenter extends BaseContract.Presenter<View> {
+        void getLatestProjectArticleList(int page);
 
-        void getProjectDetail();
+        void refresh();
 
+        void loadMore();
+
+        void getProjectChapters();
     }
-
 }

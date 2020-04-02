@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/collect"
+        android:icon="@drawable/ic_collect_black_24dp"
+        android:title="@string/collect"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:title="@string/share"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/open_in_browser"
+        android:icon="@drawable/ic_open_in_browser_black_24dp"
+        android:title="@string/open_in_browser"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/copy_link"
+        android:icon="@drawable/ic_content_copy_black_24dp"
+        android:title="@string/copy_link"
+        app:showAsAction="never" />
+
+</menu>

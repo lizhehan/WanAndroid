@@ -1,102 +1,80 @@
 package com.lizhehan.wanandroid.base;
 
-import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
-import com.lizhehan.wanandroid.application.MyApplication;
-import com.lizhehan.wanandroid.util.network.NetBroadcastReceiver;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import com.lizhehan.wanandroid.ui.user.LoginActivity;
 
-public abstract class BaseActivity extends AppCompatActivity implements NetBroadcastReceiver.NetChangeListener {
-    public static NetBroadcastReceiver.NetChangeListener listener;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
-    protected MyApplication context;
-    protected BaseActivity activity;
+public abstract class BaseActivity<P extends BaseContract.Presenter> extends AppCompatActivity implements BaseContract.View {
 
-    private Unbinder unbinder;
-    private NetBroadcastReceiver netBroadcastReceiver;
-//    private int netType;
+    protected P presenter;
+    private CompositeDisposable compositeDisposable;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutResID());
-        unbinder = ButterKnife.bind(this);
-        context = MyApplication.getInstance();
-        activity = this;
-        listener = this;
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        netBroadcastReceiver = new NetBroadcastReceiver();
-        registerReceiver(netBroadcastReceiver, intentFilter);
-        initStatusColor();
-        initToolbar();
+        setContentView(getViewBindingRoot());
+        compositeDisposable = new CompositeDisposable();
         initView();
         initData();
-        checkNet();
-        login();
+        //setSystemUi();
     }
 
-    private void initStatusColor() {
-
-    }
-
-    protected abstract int getLayoutResID();
+    protected abstract View getViewBindingRoot();
 
     protected abstract void initView();
 
     protected abstract void initData();
 
-    protected void checkNet() {
+    private void setSystemUi() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                option = option | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            }
+            getWindow().getDecorView().setSystemUiVisibility(option);
+            getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
     }
-
-    protected void initToolbar() {
-    }
-
-    protected void login() {
-    }
-
-
-//    public boolean isNetConnect() {
-//        if (netType == NetUtil.NETWORK_MOBILE) {
-//            Toast.makeText(activity,"NETWORK_MOBILE", Toast.LENGTH_SHORT).show();
-//            return true;
-//        } else if (netType == NetUtil.NETWORK_WIFI) {
-//            Toast.makeText(activity,"NETWORK_WIFI", Toast.LENGTH_SHORT).show();
-//            return true;
-//        } else if (netType == NetUtil.NETWORK_NONE) {
-//            Toast.makeText(activity,"NETWORK_NONE", Toast.LENGTH_SHORT).show();
-//            return false;
-//        }
-//        Toast.makeText(activity,"false", Toast.LENGTH_SHORT).show();
-//        return false;
-//    }
 
     @Override
-    public void onNetChange(int status) {
-//        if(status == NetUtil.NETWORK_NONE) {
-//            Toast.makeText(activity,"NONE", Toast.LENGTH_SHORT).show();
-//            netType = NetUtil.NETWORK_NONE;
-//        } else if (status == NetUtil.NETWORK_MOBILE) {
-//            Toast.makeText(activity,"MOBILE", Toast.LENGTH_SHORT).show();
-//            netType = NetUtil.NETWORK_MOBILE;
-//        } else if (status == NetUtil.NETWORK_WIFI) {
-//            Toast.makeText(activity,"WIFI", Toast.LENGTH_SHORT).show();
-//            netType = NetUtil.NETWORK_WIFI;
-//        }
+    public void login() {
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    @Override
+    public void addSubscribe(Disposable disposable) {
+        if (compositeDisposable != null) {
+            compositeDisposable.add(disposable);
+        }
+    }
+
+    public void clearSubscribe() {
+        if (compositeDisposable != null) {
+            compositeDisposable.clear();
+            compositeDisposable = null;
+        }
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
-        if (unbinder != null) {
-            unbinder.unbind();
+        clearSubscribe();
+        if (presenter != null) {
+            presenter.detachView();
+            presenter = null;
         }
-        unregisterReceiver(netBroadcastReceiver);
+        super.onDestroy();
     }
 }

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_main"
+    app:startDestination="@+id/homeFragment">
+
+    <keep_state_fragment
+        android:id="@+id/homeFragment"
+        android:name="com.lizhehan.wanandroid.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_list" />
+
+    <keep_state_fragment
+        android:id="@+id/treeFragment"
+        android:name="com.lizhehan.wanandroid.ui.tree.TreeFragment"
+        android:label="@string/title_tree"
+        tools:layout="@layout/fragment_list" />
+
+    <keep_state_fragment
+        android:id="@+id/weChatFragment"
+        android:name="com.lizhehan.wanandroid.ui.wechat.WeChatFragment"
+        android:label="@string/title_wechat"
+        tools:layout="@layout/fragment_tab_pager" />
+
+    <keep_state_fragment
+        android:id="@+id/projectFragment"
+        android:name="com.lizhehan.wanandroid.ui.project.ProjectFragment"
+        android:label="@string/title_latest_project"
+        tools:layout="@layout/fragment_tab_pager" />
+
+    <keep_state_fragment
+        android:id="@+id/userFragment"
+        android:name="com.lizhehan.wanandroid.ui.user.UserFragment"
+        android:label="@string/title_user"
+        tools:layout="@layout/fragment_user" />
+
+    <activity
+        android:id="@+id/searchActivity"
+        android:name="com.lizhehan.wanandroid.ui.search.SearchActivity"
+        android:label="@string/search"
+        tools:layout="@layout/activity_search" />
+
+    <activity
+        android:id="@+id/webActivity"
+        android:name="com.lizhehan.wanandroid.ui.web.WebActivity"
+        android:label="activity_web"
+        tools:layout="@layout/activity_web" />
+
+    <activity
+        android:id="@+id/treeActivity"
+        android:name="com.lizhehan.wanandroid.ui.tree.article.TreeActivity"
+        android:label="activity_tree"
+        tools:layout="@layout/activity_tab_pager" />
+
+    <activity
+        android:id="@+id/projectActivity"
+        android:name="com.lizhehan.wanandroid.ui.project.article.ProjectActivity"
+        android:label="@string/title_project_tree"
+        tools:layout="@layout/activity_tab_pager" />
+
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.lizhehan.wanandroid.ui.user.LoginActivity"
+        android:label="@string/login"
+        tools:layout="@layout/activity_login" />
+
+    <activity
+        android:id="@+id/myCollectionActivity"
+        android:name="com.lizhehan.wanandroid.ui.user.collect.MyCollectionActivity"
+        android:label="@string/my_collection"
+        tools:layout="@layout/activity_tab_pager" />
+
+    <activity
+        android:id="@+id/myCoinActivity"
+        android:name="com.lizhehan.wanandroid.ui.user.coin.MyCoinActivity"
+        android:label="@string/my_coin"
+        tools:layout="@layout/activity_list" />
+
+    <activity
+        android:id="@+id/aboutActivity"
+        android:name="com.lizhehan.wanandroid.ui.user.about.AboutActivity"
+        android:label="@string/about" />
+
+</navigation>

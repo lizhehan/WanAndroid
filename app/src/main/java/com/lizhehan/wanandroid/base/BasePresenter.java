@@ -1,25 +1,24 @@
 package com.lizhehan.wanandroid.base;
 
-public class BasePresenter<T extends BaseView> implements BasePre<T> {
+public class BasePresenter<V extends BaseContract.View> implements BaseContract.Presenter<V> {
 
-    protected T mView;
-    protected int currentPage;
+    public V view;
 
     @Override
-    public void attachView(T view) {
-        this.mView = view;
+    public void attachView(V view) {
+        this.view = view;
     }
 
     @Override
     public void detachView() {
-        mView = null;
+        view = null;
     }
 
-    public int getCurrentPage() {
-        return currentPage;
+    public boolean isViewAttached() {
+        return view != null;
     }
 
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
+    public V getView() {
+        return view;
     }
 }

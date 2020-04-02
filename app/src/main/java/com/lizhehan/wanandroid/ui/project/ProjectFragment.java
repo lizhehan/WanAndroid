@@ -1,94 +1,134 @@
 package com.lizhehan.wanandroid.ui.project;
 
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.listener.OnLoadMoreListener;
+import com.lizhehan.wanandroid.Constants;
 import com.lizhehan.wanandroid.R;
+import com.lizhehan.wanandroid.adapter.ProjectArticleAdapter;
 import com.lizhehan.wanandroid.base.BaseFragment;
-import com.lizhehan.wanandroid.data.bean.ProjectBean;
-import com.lizhehan.wanandroid.ui.project.projectdetail.ProjectDetailFragment;
-import com.lizhehan.wanandroid.ui.project.projectdetail.adapter.ProjectDetailFragmentAdapter;
+import com.lizhehan.wanandroid.bean.Article;
+import com.lizhehan.wanandroid.bean.Chapter;
+import com.lizhehan.wanandroid.databinding.FragmentListBinding;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.io.Serializable;
 import java.util.List;
 
-import butterknife.BindView;
+public class ProjectFragment extends BaseFragment<ProjectPresenter> implements ProjectContract.View {
 
-public class ProjectFragment extends BaseFragment implements ProjectContract.View {
-
-    @BindView(R.id.tab_layout_project)
-    TabLayout projectTabLayout;
-    @BindView(R.id.view_pager_project)
-    ViewPager projectViewPager;
-
-    private List<ProjectBean> demoBeanList;
-    private List<Fragment> fragmentList;
-    private List<String> titles;
-    private ProjectPresenter projectPresenter;
-    private ProjectDetailFragmentAdapter adapter;
-
-    public static ProjectFragment getInstance() {
-        return new ProjectFragment();
-    }
+    private FragmentListBinding binding;
+    private ProjectArticleAdapter projectArticleAdapter;
+    private List<Chapter> chapterList;
 
     @Override
-    public int getLayoutResID() {
-        return R.layout.fragment_project;
-    }
-
-    @Override
-    protected void initData() {
-        demoBeanList = new ArrayList<>();
-        fragmentList = new ArrayList<>();
-        titles = new LinkedList<>();
-        projectPresenter = new ProjectPresenter(this);
-        projectPresenter.getProjectDetail();
+    protected View getViewBindingRoot(LayoutInflater inflater) {
+        binding = FragmentListBinding.inflate(inflater);
+        return binding.getRoot();
     }
 
     @Override
     protected void initView() {
-        super.initView();
-    }
-
-    @Override
-    public void getProjectResultOK(List<ProjectBean> demoBeans) {
-        demoBeanList.clear();
-        fragmentList.clear();
-        demoBeanList.addAll(demoBeans);
-        if (demoBeanList.size() > 0) {
-            for (ProjectBean projectBean : demoBeanList) {
-                fragmentList.add(ProjectDetailFragment.getInstance(projectBean.getId()));
-                titles.add(projectBean.getName());
+        setHasOptionsMenu(true);
+        binding.swipeRefreshLayout.setRefreshing(true);
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.refresh();
             }
-            adapter = new ProjectDetailFragmentAdapter(getChildFragmentManager(), fragmentList, titles);
-            projectViewPager.setOffscreenPageLimit(2);
-            projectViewPager.setAdapter(adapter);
-            projectTabLayout.setupWithViewPager(projectViewPager);
-            adapter.notifyDataSetChanged();
+        });
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    @Override
+    protected void initData() {
+        presenter = new ProjectPresenter();
+        presenter.attachView(this);
+        presenter.getLatestProjectArticleList(0);
+        presenter.getProjectChapters();
+        projectArticleAdapter = new ProjectArticleAdapter();
+        projectArticleAdapter.getLoadMoreModule().setEnableLoadMoreIfNotFullPage(false);
+        projectArticleAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                presenter.loadMore();
+            }
+        });
+        projectArticleAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.LINK, projectArticleAdapter.getData().get(position).getLink());
+                bundle.putString(Constants.TITLE, projectArticleAdapter.getData().get(position).getTitle());
+                Navigation.findNavController(requireView()).navigate(R.id.webActivity, bundle);
+            }
+        });
+        binding.recyclerView.setAdapter(projectArticleAdapter);
+    }
+
+    @Override
+    public void getLatestProjectArticleListSuccess(List<Article> articleList, boolean isRefresh, boolean isLastPage) {
+        if (isRefresh) {
+            binding.swipeRefreshLayout.setRefreshing(false);
+            projectArticleAdapter.setNewData(articleList);
+        } else {
+            projectArticleAdapter.addData(articleList);
+            projectArticleAdapter.getLoadMoreModule().loadMoreComplete();
         }
-        showNormal();
+        if (isLastPage) {
+            projectArticleAdapter.getLoadMoreModule().loadMoreEnd();
+        }
     }
 
     @Override
-    public void getProjectResultErr(String info) {
-        showError(info);
+    public void getLatestProjectArticleListError(String errorMsg) {
+        binding.swipeRefreshLayout.setRefreshing(false);
+        projectArticleAdapter.getLoadMoreModule().loadMoreFail();
     }
 
     @Override
-    public void reload() {
-        showLoading();
-        projectPresenter.getProjectDetail();
+    public void getProjectChaptersSuccess(List<Chapter> chapterList) {
+        this.chapterList = chapterList;
     }
 
-    /**
-     * 查找 子 fragment 回到顶部
-     */
-    public void scrollChildToTop() {
-        if (adapter != null) {
-            ProjectDetailFragment currentFragment = adapter.getCurrentFragment();
-            currentFragment.scrollToTop();
+    @Override
+    public void getProjectChaptersError(String errorMsg) {
+
+    }
+
+    public void scrollToTop() {
+        binding.recyclerView.scrollToPosition(0);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_project, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.project_tree:
+                if (chapterList != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.CHAPTER, (Serializable) chapterList);
+                    Navigation.findNavController(requireView()).navigate(R.id.projectActivity, bundle);
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

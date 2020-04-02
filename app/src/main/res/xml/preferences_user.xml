@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:icon="@drawable/ic_collect_black_24dp"
+        app:title="@string/my_collection">
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetClass="com.lizhehan.wanandroid.ui.user.collect.MyCollectionActivity"
+            android:targetPackage="com.lizhehan.wanandroid" />
+    </Preference>
+
+    <Preference
+        app:icon="@drawable/ic_coin_black_24dp"
+        app:title="@string/my_coin">
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetClass="com.lizhehan.wanandroid.ui.user.coin.MyCoinActivity"
+            android:targetPackage="com.lizhehan.wanandroid" />
+    </Preference>
+
+    <Preference
+        app:icon="@drawable/ic_help_black_24dp"
+        app:title="@string/about">
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetClass="com.lizhehan.wanandroid.ui.user.about.AboutActivity"
+            android:targetPackage="com.lizhehan.wanandroid" />
+    </Preference>
+
+</PreferenceScreen>

@@ -1,38 +1,22 @@
 package com.lizhehan.wanandroid.ui.user;
 
-import com.lizhehan.wanandroid.base.BasePre;
-import com.lizhehan.wanandroid.base.BaseView;
-import com.lizhehan.wanandroid.data.bean.UserBean;
+import com.lizhehan.wanandroid.base.BaseContract;
+import com.lizhehan.wanandroid.bean.UserInfo;
 
-/**
- * login 登陆
- */
+public interface UserContract {
+    interface View extends BaseContract.View {
+        void getUserInfoSuccess(UserInfo userInfo);
 
-public class UserContract {
+        void getUserInfoError(String errorMsg);
 
-    public interface View extends BaseView {
+        void logoutSuccess();
 
-        void loginOk(UserBean userBean);
-
-        void loginErr(String info);
-
-        void registerOk(UserBean userBean);
-
-        void registerErr(String info);
-
-        void logoutOk(String info);
-
-        void logoutErr(String info);
-
+        void logoutError(String errorMsg);
     }
 
-    public interface Presenter extends BasePre<View> {
-
-        void login(String name, String password);
-
-        void register(String name, String password, String rePassWord);
+    interface Presenter extends BaseContract.Presenter<View> {
+        void getUserInfo();
 
         void logout();
-
     }
 }

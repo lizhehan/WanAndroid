@@ -1,61 +1,72 @@
 package com.lizhehan.wanandroid.ui.project;
 
 import com.lizhehan.wanandroid.base.BasePresenter;
-import com.lizhehan.wanandroid.data.BaseResponse;
-import com.lizhehan.wanandroid.data.bean.ProjectBean;
-import com.lizhehan.wanandroid.model.ApiService;
-import com.lizhehan.wanandroid.model.ApiStore;
-import com.lizhehan.wanandroid.util.ConstantUtil;
+import com.lizhehan.wanandroid.bean.Article;
+import com.lizhehan.wanandroid.bean.Chapter;
+import com.lizhehan.wanandroid.bean.Page;
+import com.lizhehan.wanandroid.bean.WanResponse;
+import com.lizhehan.wanandroid.model.RetrofitSubscriber;
+import com.lizhehan.wanandroid.model.WanRetrofitService;
 
 import java.util.List;
 
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-
-/**
- * 项目 presenter 层
- */
 
 public class ProjectPresenter extends BasePresenter<ProjectContract.View> implements ProjectContract.Presenter {
 
-    private ProjectContract.View view;
+    private boolean isRefresh = true;
+    private int curPage;
 
-    public ProjectPresenter(ProjectContract.View view) {
-        this.view = view;
+    @Override
+    public void getLatestProjectArticleList(int page) {
+        WanRetrofitService.getInstance()
+                .create()
+                .getLatestProjectArticleList(page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RetrofitSubscriber<WanResponse<Page<Article>>>(view) {
+                    @Override
+                    public void onSuccess(WanResponse<Page<Article>> response) {
+                        view.getLatestProjectArticleListSuccess(response.getData().getDatas(), isRefresh, response.getData().getCurPage() == response.getData().getPageCount());
+                        curPage = response.getData().getCurPage();
+                    }
+
+                    @Override
+                    public void onError(String errorMsg) {
+                        view.getLatestProjectArticleListError(errorMsg);
+                    }
+                });
     }
 
     @Override
-    public void getProjectDetail() {
-        ApiStore.getInstance()
-                .create(ApiService.class)
-                .getDemoTitleList()
+    public void refresh() {
+        isRefresh = true;
+        getLatestProjectArticleList(0);
+    }
+
+    @Override
+    public void loadMore() {
+        isRefresh = false;
+        getLatestProjectArticleList(curPage);
+    }
+
+    @Override
+    public void getProjectChapters() {
+        WanRetrofitService.getInstance()
+                .create()
+                .getProjectChapters()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseResponse<List<ProjectBean>>>() {
+                .subscribe(new RetrofitSubscriber<WanResponse<List<Chapter>>>(view) {
                     @Override
-                    public void onError(Throwable e) {
-                        view.getProjectResultErr(e.getMessage());
+                    public void onSuccess(WanResponse<List<Chapter>> response) {
+                        view.getProjectChaptersSuccess(response.getData());
                     }
 
                     @Override
-                    public void onComplete() {
-
-                    }
-
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseResponse<List<ProjectBean>> projectBaseResponse) {
-                        if (projectBaseResponse.getErrorCode() == ConstantUtil.REQUEST_SUCCESS) {
-                            view.getProjectResultOK(projectBaseResponse.getData());
-                        } else if (projectBaseResponse.getErrorCode() == ConstantUtil.REQUEST_ERROR) {
-                            view.getProjectResultErr(projectBaseResponse.getErrorMsg());
-                        }
+                    public void onError(String errorMsg) {
+                        view.getProjectChaptersError(errorMsg);
                     }
                 });
     }

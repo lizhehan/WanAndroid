@@ -1,61 +1,29 @@
 package com.lizhehan.wanandroid.ui.home;
 
-import com.lizhehan.wanandroid.base.BasePre;
-import com.lizhehan.wanandroid.base.BaseView;
-import com.lizhehan.wanandroid.data.bean.ArticleBean;
-import com.lizhehan.wanandroid.data.bean.BannerBean;
-import com.lizhehan.wanandroid.data.bean.UserBean;
+import com.lizhehan.wanandroid.base.BaseContract;
+import com.lizhehan.wanandroid.bean.Article;
+import com.lizhehan.wanandroid.bean.Banner;
 
 import java.util.List;
 
+public interface HomeContract {
+    interface View extends BaseContract.View {
+        void getBannerSuccess(List<Banner> bannerList);
 
-/**
- * 首页 契约类
- */
+        void getBannerError(String errorMsg);
 
-public class HomeContract {
+        void getHomeArticleListSuccess(List<Article> articleList, boolean isRefresh, boolean isLastPage);
 
-    public interface View extends BaseView {
-
-        void getHomeOk(ArticleBean articleBean, boolean isRefresh);
-
-        void getHomeErr(String info);
-
-        void getBannerOk(List<BannerBean> bannerBean);
-
-        void getBannerErr(String info);
-
-        void loginOk(UserBean userBean);
-
-        void loginErr(String err);
+        void getHomeArticleListError(String errorMsg);
     }
 
-    public interface Per extends BasePre<View> {
-        /**
-         * 刷新 列表
-         */
-        void refresh();
-
-        /**
-         * 加載更多
-         */
-        void loadMore();
-
-        /**
-         * 获取 轮播信息
-         */
+    interface Presenter extends BaseContract.Presenter<View> {
         void getBanner();
 
-        /**
-         * 获取 首页 页数数据
-         *
-         * @param page
-         */
-        void getHomeData(int page);
+        void getHomeArticleList(int page);
 
-        /**
-         * 帐号 登录
-         */
-        void loginUser(String username, String password);
+        void refresh();
+
+        void loadMore();
     }
 }
